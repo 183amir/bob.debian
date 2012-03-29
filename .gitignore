@@ -1,4 +1,5 @@
 *~
+*.swp
 debian/bob/
 debian/bob-doc/
 debian/bob-dev/
