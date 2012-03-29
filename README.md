@@ -27,26 +27,10 @@ $ debuild --no-tgz-check -kA2170D5D -I.git -I.gitignore -I.gitmodules -I'cxx/vis
 The work of building a package with debuild can take some iterations.
 Here are some tips to alleviate common problems:
 
-1. To enable multiple processes when building:
-
-  ```sh
-  $ debuild -j4
-  ```
-
+1. To enable multiple processes when building: `debuild -j4`
 2. To avoid cleaning before re-building (this will only rebuild the binary
-   packages and not the source one):
-
-  ```sh
-  $ debuild -nc
-  ```
-
-  Note that, otherwise, debuild will first call clean.
-
-3. To avoid signing the package (if you have a gpg key)
-
-  ```sh
-  $ debuild -us -uc
-  ```
+   packages and not the source one): `debuild -nc`. Note that, otherwise, debuild will first call clean.
+3. To avoid signing the package (if you have a gpg key): `debuild -us -uc`
 
 Once you are happy with the state of the package, just upload it to the PPA:
 
