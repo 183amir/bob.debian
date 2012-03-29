@@ -1,0 +1,10 @@
+*~
+debian/bob/
+debian/bob-doc/
+debian/bob-dev/
+debian/tmp
+debian/files
+debian/stamp-*
+obj-*
+debian/*.log
+debian/*.substvars
