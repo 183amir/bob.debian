@@ -18,7 +18,7 @@ $ debuild --no-tgz-check -kA2170D5D -I.git -I.gitignore -I.gitmodules -I'cxx/vis
 
 To only build the source package (for a PPA upload for instance). Replace the
 "-kValue" by your own PPA key identifier (can be obtained with the command
-`gpg --list-keys`) and append the -S:
+`gpg --list-keys`) and append the `-S`:
 
 ```sh
 $ debuild --no-tgz-check -kA2170D5D -I.git -I.gitignore -I.gitmodules -I'cxx/visioner/project/*' -S
@@ -30,22 +30,22 @@ Here are some tips to alleviate common problems:
 1. To enable multiple processes when building:
 
   ```sh
-	$ debuild -j4
+  $ debuild -j4
   ```
 
 2. To avoid cleaning before re-building (this will only rebuild the binary
    packages and not the source one):
 
   ```sh
-	$ debuild -nc
+  $ debuild -nc
   ```
 
-	Note that, otherwise, debuild will first call clean.
+  Note that, otherwise, debuild will first call clean.
 
 3. To avoid signing the package (if you have a gpg key)
 
   ```sh
-	$ debuild -us -uc
+  $ debuild -us -uc
   ```
 
 Once you are happy with the state of the package, just upload it to the PPA:
