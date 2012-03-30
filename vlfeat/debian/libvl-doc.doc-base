@@ -1,0 +1,9 @@
+Document: vlfeat
+Title: VLFeat Manual
+Author: Andrea Vedaldi and Brian Fulkerson
+Abstract: This manual provides the API documentation for VLFeat.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/libvl-doc/html/index.html
+Files: /usr/share/doc/libvl-doc/html/*.html

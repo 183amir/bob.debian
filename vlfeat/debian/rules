@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	mv bin/$(shell ls bin)/libvl.so bin/$(shell ls bin)/libvl.so.0
+	dh_install
+	#gcc -shared -Wl,-soname=libvl.so.0 debian/libvl0/usr/lib/libvl.so \
+	#	-o debian/libvl0/usr/lib/libvl.so.0
+	#rm debian/libvl0/usr/lib/libvl.so

@@ -1,0 +1,52 @@
+Source: vlfeat
+Priority: extra
+Maintainer: Idiap Biometrics Group <biometric@idiap.ch>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.3
+Section: libs
+Homepage: http://www.vlfeat.org/
+Vcs-Browser: http://github.com/vlfeat/vlfeat
+
+Package: libvl-dev
+Section: libdevel
+Architecture: any
+Depends: libvl0 (= ${binary:Version}), ${misc:Depends}
+Description: A library of popular computer vision algorithms
+ VLFeat is a C implementation of algorithms used in computer vision,
+ including SIFT, MSER, k-means, hierarchical k-means,
+ agglomerative information bottleneck, and quick shift.
+ .
+ This package contains the development libraries.
+
+Package: libvl-bin
+Section: utils
+Architecture: any
+Depends: libvl0, ${misc:Depends}
+Description: A library of popular computer vision algorithms
+ VLFeat is a C implementation of algorithms used in computer vision,
+ including SIFT, MSER, k-means, hierarchical k-means,
+ agglomerative information bottleneck, and quick shift.
+ .
+ This package contains the mser and sift binaries.
+
+Package: libvl0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A library of popular computer vision algorithms
+ VLFeat is a C implementation of algorithms used in computer vision,
+ including SIFT, MSER, k-means, hierarchical k-means,
+ agglomerative information bottleneck, and quick shift.
+ .
+ This package contains the runtime libraries.
+
+Package: libvl-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: Documentation for VLFeat
+ VLFeat is a C implementation of algorithms used in computer vision,
+ including SIFT, MSER, k-means, hierarchical k-means,
+ agglomerative information bottleneck, and quick shift.
+ .
+ This package contains the documentation, in HTML format.

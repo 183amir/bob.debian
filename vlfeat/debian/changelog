@@ -1,0 +1,5 @@
+vlfeat (@PPA_VERSION@) @DISTRIBUTION@; urgency=low
+
+  * This package is auto-generated. See http://github.com/idiap/bob.debian/vlfeat for a comprehensive list of changes
+
+ -- Biometrics Group <biometric@idiap.ch>  @DATE@

@@ -1,0 +1,2 @@
+version=3
+http://vlfeat.org/download/vlfeat-(\d+)\.(\d+)((\.\d)+)\.tar\.gz
