@@ -2,7 +2,7 @@
 
 version=@VERSION@
 libname=libblitz
-pkgname=$(libname)0ldbl
+pkgname=$(libname)1ldbl
 docname=$(libname)-doc
 
 PREFIX = /usr
