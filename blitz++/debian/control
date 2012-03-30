@@ -1,0 +1,41 @@
+Source: blitz++
+Priority: extra
+Section: libs
+Maintainer: Idiap Biometrics Group <biometric@idiap.ch>
+Build-Depends: gfortran | fortran-compiler, autotools-dev, autoconf2.13,
+ libblas-dev | libatlas-base-dev, liblapack-dev | libatlas-base-dev,
+ debhelper (>= 7.0.50~), d-shlibs, quilt, automake, libtool
+Standards-Version: 3.9.3
+Homepage: http://oonumerics.org/blitz/
+Vcs-Browser: http://sourceforge.net/projects/blitz/
+
+Package: libblitz1ldbl
+Architecture: any
+Priority: extra
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libblitz0
+Replaces: libblitz0
+Provides: libblitz1
+Description: C++ template class library for scientific computing
+ Blitz++ offers a high level of abstraction, 
+ but performance which rivals Fortran.  The
+ current version supports arrays and vectors.
+ .
+ This package contains the dynamic library.
+
+Package: libblitz1-dev
+Architecture: any
+Priority: extra
+Section: libdevel
+Depends: libblitz0ldbl (= ${binary:Version}), ${misc:Depends}
+Provides: libblitz-dev, libblitz1-dev, blitz++
+Conflicts: libblitz-dev, libblitz0-dev, blitz++
+Description: C++ template class library for scientific computing
+ Blitz++ offers a high level of abstraction, 
+ but performance which rivals Fortran.  The
+ current version supports arrays and vectors.
+ .
+ This package contains the static library
+ and header files for  compiling programs with
+ blitz++.

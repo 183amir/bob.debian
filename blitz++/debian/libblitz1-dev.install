@@ -1,0 +1,7 @@
+lib/.libs/libblitz.a		usr/lib
+blitz/*.{h,cc}			usr/include/blitz
+blitz/gnu/*.{h,cc}              usr/include/blitz/gnu
+blitz/array/*.{h,cc}		usr/include/blitz/array
+blitz/meta/*.{h,cc}		usr/include/blitz/meta
+blitz/generate/*.{h,cc}		usr/include/blitz/generate
+random/*.h			usr/include/random

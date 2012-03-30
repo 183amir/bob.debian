@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+
+version=@VERSION@
+libname=libblitz
+pkgname=$(libname)0ldbl
+docname=$(libname)-doc
+
+PREFIX = /usr
+
+%:
+	dh $@ 
+	####dh $@ -with autotools-dev
+	# dh --with autotools-dev --with autoreconf $@ # Needs Build-Depends: dh-autoreconf
+
+override_dh_auto_configure:
+	autoreconf -fiv
+	./configure --prefix=${PREFIX} --enable-optimize --enable-static --enable-64bit --enable-shared --enable-threadsafe CFLAGS="-pthread -g -O2 -DBZHAVE_STD" CXXFLAGS="-pthread -g -O2 -DBZ_HAVE_STD" CPPFLAGS="-pthread"
+
+override_dh_auto_build:
+	make lib
+
+override_dh_compress:
+	dh_compress --exclude=examples --exclude=testsuite --exclude=.pdf
+
+override_dh_install:
+	dh_install
+	d-shlibmove --ldbl --commit \
+	            --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
+	            lib/.libs/libblitz.so
+
+	#######    --movedev "debian/tmp/usr/lib/*.la" usr/lib \
+	# Make sure there will be no *.la file created automagically by d-shlibmove
+	find debian -name "*.la" -delete

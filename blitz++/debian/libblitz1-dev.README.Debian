@@ -1,0 +1,14 @@
+blitz++ for DEBIAN
+
+This is the development package.
+
+If you have installed the libblitz-doc package you will
+find some examples in /usr/share/doc/libblitz-doc/examples.
+There is a Makefile.examples to build and test all examples.
+
+Packaged by 
+John Lapeyre <lapeyre@physics.arizona.edu> Thu, 10 Sep 1998 15:58:31 -0700
+Took over by
+Konstantinos Margaritis <markos@debian.org> Thu, 20 Apr 2000 12:45:08 +0300
+Group maintained since
+Andreas Tille <tille@debian.org>  Sun, 29 Apr 2007 17:06:38 +0200

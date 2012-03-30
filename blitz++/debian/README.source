@@ -1,0 +1,4 @@
+This packages uses the quilt patch system. Please read
+/usr/share/doc/quilt/README.source for more information.
+
+ -- Laurent El Shafey <laurent.el-shafey@idiap.ch>  Thu, 29 Mar 2012 17:18:00 +0200

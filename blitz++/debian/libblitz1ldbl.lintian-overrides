@@ -1,0 +1,5 @@
+# Development of libblitz seems to have been stalled and thus it seems
+# to make less sense to add a version to the package name if there are
+# no new versions to expect.  This will change until new versions show
+# up on the horizont
+libblitz0ldbl: package-name-doesnt-match-sonames libblitz0
