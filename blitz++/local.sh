@@ -32,7 +32,7 @@ echo "Today                   : ${date}"
 blitz_version="${base_blitz_version}${hg_version}"
 echo "Blitz++ version checkout: ${blitz_version}"
 
-for distro in precise oneiric natty maverick lucid; do
+for distro in unknown; do
   ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
@@ -46,8 +46,7 @@ for distro in precise oneiric natty maverick lucid; do
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${blitz_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${blitz_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -k${gpg_key} -sa -S;
-  #debuild -k${gpg_key} -sd -S;
+  debuild -us -uc -b
   cd ..
   rm -rf blitz++_${blitz_version}
 done

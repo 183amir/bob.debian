@@ -10,5 +10,5 @@ $ ./make.sh
 Upload the packages to our launchpad site:
 
 ```sh
-$ dput *.changes
+$ dput ppa:biometrics/blitz *.changes
 ```

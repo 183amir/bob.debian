@@ -24,6 +24,9 @@ override_dh_compress:
 
 override_dh_install:
 	dh_install
+	d-shlibmove --ldbl \
+	            --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
+	            lib/.libs/libblitz.so
 	d-shlibmove --ldbl --commit \
 	            --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
 	            lib/.libs/libblitz.so

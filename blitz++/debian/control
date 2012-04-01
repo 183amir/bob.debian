@@ -28,9 +28,9 @@ Package: libblitz1-dev
 Architecture: any
 Priority: extra
 Section: libdevel
-Depends: libblitz0ldbl (= ${binary:Version}), ${misc:Depends}
+Depends: libblitz1ldbl (= ${binary:Version}), ${misc:Depends}
 Provides: libblitz-dev, libblitz1-dev, blitz++
-Conflicts: libblitz-dev, libblitz0-dev, blitz++
+Conflicts: libblitz0-dev
 Description: C++ template class library for scientific computing
  Blitz++ offers a high level of abstraction, 
  but performance which rivals Fortran.  The
