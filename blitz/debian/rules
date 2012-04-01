@@ -8,7 +8,9 @@ docname=$(libname)-doc
 PREFIX = /usr
 
 %:
-	dh --with quilt --with autotools-dev --with autoreconf $@ # Needs Build-Depends: dh-autoreconf
+	dh $@
+	#Not available on Ubuntu 10.04 (Lucid Lynx)
+	#dh --with quilt --with autotools-dev --with autoreconf $@ # Needs Build-Depends: dh-autoreconf
 
 override_dh_auto_configure:
 	autoreconf -fiv

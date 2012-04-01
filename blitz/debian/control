@@ -4,7 +4,7 @@ Section: libs
 Maintainer: Idiap Biometrics Group <biometric@idiap.ch>
 Build-Depends: gfortran | fortran-compiler, autotools-dev, autoconf2.13,
  libblas-dev | libatlas-base-dev, liblapack-dev | libatlas-base-dev,
- debhelper (>= 7.0.50~), d-shlibs, quilt, automake, libtool, dh-autoreconf
+ debhelper (>= 7.0.50~), d-shlibs, quilt, automake, libtool
 Standards-Version: 3.9.3
 Homepage: http://oonumerics.org/blitz/
 Vcs-Browser: http://sourceforge.net/projects/blitz/
