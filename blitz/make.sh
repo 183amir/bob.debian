@@ -7,7 +7,7 @@
 
 # Configure here your parameters for the package you are building
 base_blitz_version="0.10-hg"
-ppa_iteration="2"
+ppa_iteration="3"
 gpg_key="A2170D5D"
 
 # 1) Clone the mercurial repository
@@ -35,7 +35,6 @@ echo "Blitz++ version checkout: ${blitz_version}"
 for distro in precise oneiric natty maverick lucid; do
   ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
-
   echo "Generating source packages for Ubuntu '${distro}'..."
   cp -r blitz.clone blitz++_${blitz_version}.orig
   cd blitz++_${blitz_version}.orig
@@ -49,5 +48,5 @@ for distro in precise oneiric natty maverick lucid; do
   debuild -k${gpg_key} -sa -S;
   #debuild -k${gpg_key} -sd -S;
   cd ..
-  rm -rf blitz++_${blitz_version}
+  rm -rf blitz++_${blitz_version}.orig blitz++_${blitz_version}
 done

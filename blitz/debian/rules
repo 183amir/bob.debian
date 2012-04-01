@@ -8,9 +8,7 @@ docname=$(libname)-doc
 PREFIX = /usr
 
 %:
-	dh $@ 
-	####dh $@ -with autotools-dev
-	# dh --with autotools-dev --with autoreconf $@ # Needs Build-Depends: dh-autoreconf
+	dh --with quilt --with autotools-dev --with autoreconf $@ # Needs Build-Depends: dh-autoreconf
 
 override_dh_auto_configure:
 	autoreconf -fiv
@@ -24,12 +22,9 @@ override_dh_compress:
 
 override_dh_install:
 	dh_install
-	d-shlibmove --ldbl \
-	            --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
-	            lib/.libs/libblitz.so
 	d-shlibmove --ldbl --commit \
-	            --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
-	            lib/.libs/libblitz.so
+	   --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
+	   lib/.libs/libblitz.so
 
 	#######    --movedev "debian/tmp/usr/lib/*.la" usr/lib \
 	# Make sure there will be no *.la file created automagically by d-shlibmove

@@ -33,20 +33,17 @@ blitz_version="${base_blitz_version}${hg_version}"
 echo "Blitz++ version checkout: ${blitz_version}"
 
 for distro in unknown; do
+  rm -rf blitz.local *.build
   ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
   echo "Generating source packages for Ubuntu '${distro}'..."
-  cp -r blitz.clone blitz++_${blitz_version}.orig
-  cd blitz++_${blitz_version}.orig
+  cp -r blitz.clone blitz.local
+  cd blitz.local
   rm -rf .hg .hgtags .cvsignore
-  cd ..
-  cp -r blitz++_${blitz_version}.orig blitz++_${blitz_version}
-  cd blitz++_${blitz_version}
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${blitz_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${blitz_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
   debuild -us -uc -b
   cd ..
-  rm -rf blitz++_${blitz_version}
 done
