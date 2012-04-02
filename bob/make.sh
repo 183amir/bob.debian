@@ -7,8 +7,9 @@
 # Configure here your parameters for the package you are building
 version="1.0rc1-git-44ecddcb"
 package="bob_${version}"
-ppa_iteration="1"
+ppa_iteration="2"
 gpg_key="A2170D5D"
+include_source="-sd" #-sd = w/o source; -sa = with souce
 
 rm -rf ${package} ${package}.orig #cleanup
 tar xfz ${package}.orig.tar.gz
@@ -28,7 +29,7 @@ for distro in precise; do
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${version}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -k${gpg_key} -sa -S;
+  debuild -k${gpg_key} ${include_source} -S;
   cd ..
   rm -rf ${package}
 done
