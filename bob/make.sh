@@ -5,9 +5,9 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-version="1.0beta-git-44ecddcb"
+version="1.0rc1-git-44ecddcb"
 package="bob_${version}"
-ppa_iteration="2"
+ppa_iteration="1"
 gpg_key="A2170D5D"
 
 rm -rf ${package} ${package}.orig #cleanup
@@ -15,7 +15,7 @@ tar xfz ${package}.orig.tar.gz
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
-echo "Bob version             : ${bob_version}"
+echo "Bob version             : ${version}"
 
 #for distro in precise oneiric natty maverick lucid; do
 for distro in precise; do

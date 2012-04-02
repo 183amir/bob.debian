@@ -1,6 +1,6 @@
 bob (@PPA_VERSION@) @DISTRIBUTION@; urgency=low
 
   * This package is auto-generated. For a comprehensive list of changes, see:
-    http://github.com/idiap/bob.debian/bob
+    https://github.com/idiap/bob.debian/tree/master/bob
 
  -- Biometrics Group <biometric@idiap.ch>  @DATE@

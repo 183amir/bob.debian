@@ -4,7 +4,7 @@
 
 # Creates a new version of the base tarball with the databases
 orig="idiap-bob-44ecddcbf32ceae226998df1f65ccec7584de51e"
-bob="bob_1.0beta-git-44ecddcb"
+bob="bob_1.0rc1-git-44ecddcb"
 db_version="nightlies/last"
 
 if [ -e ${bob}.orig.tar.gz ]; then
