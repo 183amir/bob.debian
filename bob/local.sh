@@ -5,32 +5,30 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-bob="bob-1.0beta-git-44ecddcb"
-ppa_iteration="2"
+version="1.0rc1-git-44ecddcb"
+package="bob_${version}"
+ppa_iteration="1"
 
-# Name used by the packaging system
-tarball="${bob}.orig.tar.gz"
-
-rm -rf ${bob} ${bob}.orig #cleanup
-tar xfz ${bob}.tar.gz
-mv ${bob} ${bob}.orig
+rm -rf ${package} ${package}.orig #cleanup
+tar xfz ${package}.orig.tar.gz
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
-echo "Bob version             : ${bob_version}"
+echo "Bob version             : ${version}"
 
-#for distro in precise oneiric natty maverick lucid; do
 for distro in precise; do
-  ppa_version="${bob}-0~ppa${ppa_iteration}~${distro}1"
-  rm -rf ${package}
+  ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
   echo "Generating source packages for Ubuntu '${distro}'..."
-  cp -r ${package}.orig ${package}
+  cp -a ${package}.orig ${package}
   cd ${package}
   cp -r ../debian .
-  sed -i -e "s/@VERSION@/${bob_version}/g" debian/rules
-  sed -i -e "s/@VERSION@/${bob_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -us -uc -b;
+  sed -i -e "s/@VERSION@/${version}/g" debian/rules
+  sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
+  debuild -us -uc -b
   cd ..
+  rm -rf ${package}
 done
+
+rm -rf ${package}.orig
