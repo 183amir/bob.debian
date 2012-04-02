@@ -1,6 +1,6 @@
 blitz++ (@PPA_VERSION@) @DISTRIBUTION@; urgency=low
 
   * This package is auto-generated. For a comprehensive list of changes, see:
-    http://github.com/idiap/bob.debian/blitz 
+    https://github.com/idiap/bob.debian/tree/master/blitz
 
  -- Biometrics Group <biometric@idiap.ch>  @DATE@
