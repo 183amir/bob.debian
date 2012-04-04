@@ -5,14 +5,19 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-version="1.0rc1-git-44ecddcb"
+version="1.0.0"
 package="bob_${version}"
 ppa_iteration="2"
 gpg_key="A2170D5D"
 include_source="-sd" #-sd = w/o source; -sa = with souce
 
-rm -rf ${package} ${package}.orig #cleanup
-tar xfz ${package}.orig.tar.gz
+if [ ! -e ${package}.orig.tar.gz ]; then
+  wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
+  tar xfz bob-${version}.tar.gz;
+  rm -f bob-${version}.tar.gz;
+  mv bob-${version} ${package}.orig;
+  tar cfz ${package}.orig.tar.gz ${package}.orig;
+fi
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
@@ -24,7 +29,8 @@ for distro in precise; do
   echo "Biometrics PPA version  : ${ppa_version}"
 
   echo "Generating source packages for Ubuntu '${distro}'..."
-  cp -a ${package}.orig ${package}
+  tar xfz ${package}.orig.tar.gz;
+  cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${version}/g" debian/rules
@@ -33,5 +39,3 @@ for distro in precise; do
   cd ..
   rm -rf ${package}
 done
-
-rm -rf ${package}.orig
