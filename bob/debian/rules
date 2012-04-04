@@ -26,7 +26,7 @@ override_dh_auto_build:
 
 override_dh_auto_test:
 	dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" test
-	dh_auto_build -- VERBOSE=$(DH_VERBOSE) sphinx-doctest
+	#dh_auto_build -- VERBOSE=$(DH_VERBOSE) sphinx-doctest
 
 override_dh_auto_install:
 	dh_auto_install

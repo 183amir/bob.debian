@@ -7,7 +7,7 @@
 # Configure here your parameters for the package you are building
 version="1.0.0"
 package="bob_${version}"
-ppa_iteration="2"
+ppa_iteration="3"
 gpg_key="A2170D5D"
 include_source="-sd" #-sd = w/o source; -sa = with souce
 
@@ -23,8 +23,8 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
-#for distro in precise oneiric natty maverick lucid; do
-for distro in precise; do
+#for distro in precise; do
+for distro in oneiric natty maverick lucid; do
   ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
