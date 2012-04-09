@@ -1,0 +1,23 @@
+Index: bob_1.0.1/CMakeLists.txt
+===================================================================
+--- bob_1.0.1.orig/CMakeLists.txt	2012-04-08 21:47:53.000000000 +0200
++++ bob_1.0.1/CMakeLists.txt	2012-04-09 09:44:51.766338448 +0200
+@@ -92,18 +92,6 @@
+ set(CMAKE_CXX_FLAGS ${COMMON_FLAGS} CACHE STRING "Flags used by the compiler during all build types." FORCE)
+ set(CMAKE_C_FLAGS ${COMMON_FLAGS} CACHE STRING "Flags used by the compiler during all build types." FORCE)
+ 
+-# This is our RPATH policy
+-# use, i.e. don't skip the full RPATH for the build tree
+-set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+-# when building, don't use the install RPATH already
+-# (but later on when installing)
+-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+-# the RPATH to be used when installing
+-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+-# add the automatically determined parts of the RPATH
+-# which point to directories outside the build tree to the install RPATH
+-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+-
+ # This will make sure we consider pkg-config directories that may have been
+ # added when the user set CMAKE_PREFIX_PATH.
+ if(CMAKE_PREFIX_PATH)
