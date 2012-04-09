@@ -8,9 +8,9 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="2"
+ppa_iteration="3"
 gpg_key="A2170D5D"
-source_shipped=false; #if you set this to true, all changes will ship w/o srcs
+source_shipped=true; #if you set this to true, all changes will ship w/o srcs
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -34,7 +34,7 @@ for distro in precise oneiric natty maverick lucid; do
   cd ${package}
   cp -r ../debian .
   if [ "${distro}" = "lucid" ]; then
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python/g" debian/rules
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python_support/g" debian/rules
   else
     sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
   fi
