@@ -10,7 +10,6 @@ version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"
-include_source="-sa" #-sd = w/o source; -sa = with souce
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -24,6 +23,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
+source_shipped=false;
 for distro in precise oneiric natty maverick lucid; do
   ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
@@ -33,9 +33,18 @@ for distro in precise oneiric natty maverick lucid; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
-  sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
+  if [ "${distro}" = "lucid" ]; then
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python/g" debian/rules
+  else
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
+  fi
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -k${gpg_key} ${include_source} -S;
+  if [ ! ${source_shipped} ]; then
+    debuild -k${gpg_key} -sa -S;
+    source_shipped=true;
+  else
+    debuild -k${gpg_key} -sd -S;
+  fi
   cd ..
   rm -rf ${package}
 done

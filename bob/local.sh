@@ -34,6 +34,11 @@ for distro in precise; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
+  if [ "${distro}" = "lucid" ]; then
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python/g" debian/rules
+  else
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
+  fi
   sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
   debuild -us -uc -b;
