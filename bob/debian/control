@@ -21,6 +21,7 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
 
 Package: bob-doc
 Section: doc
+Depends: ${misc:Depends} 
 Architecture: all
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
@@ -31,7 +32,7 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
 
 Package: bob-dev
 Architecture: all
-Depends: bob
+Depends: ${misc:Depends}, bob
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
  Research Institute, in Switzerland. The toolbox is written in a mix of Python

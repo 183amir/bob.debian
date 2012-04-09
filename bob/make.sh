@@ -10,7 +10,7 @@ version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"
-include_source="-sd" #-sd = w/o source; -sa = with souce
+include_source="-sa" #-sd = w/o source; -sa = with souce
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -24,8 +24,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
-#for distro in precise; do
-for distro in oneiric natty maverick lucid; do
+for distro in precise oneiric natty maverick lucid; do
   ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
