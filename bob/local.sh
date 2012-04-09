@@ -9,6 +9,7 @@ soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="2"
+distros=lucid
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
@@ -24,7 +25,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
-for distro in precise; do
+for distro in ${distros}; do
   ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
@@ -35,7 +36,7 @@ for distro in precise; do
   cd ${package}
   cp -r ../debian .
   if [ "${distro}" = "lucid" ]; then
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python/g" debian/rules
+    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python_support/g" debian/rules
   else
     sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
   fi
