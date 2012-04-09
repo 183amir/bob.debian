@@ -8,7 +8,7 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="3"
+ppa_iteration="1"
 gpg_key="A2170D5D"
 include_source="-sd" #-sd = w/o source; -sa = with souce
 
