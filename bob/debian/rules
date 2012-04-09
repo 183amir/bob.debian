@@ -6,9 +6,6 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-# Turns off testing after the build
-export DEB_BUILD_OPTIONS="nocheck"
-
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
@@ -16,7 +13,7 @@ export DH_OPTIONS
 PYTHON2 := $(shell pyversions -dv)
 
 %:
-	dh $@ --parallel --with python2
+	dh $@ --parallel --with @DH_PYTHON@
 
 override_dh_auto_configure:
 	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_SOVERSION=@SOVERSION@
@@ -28,8 +25,9 @@ override_dh_auto_build:
 	dh_auto_build -- VERBOSE=$(DH_VERBOSE) doxygen
 
 override_dh_auto_test:
-	dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" test
-	#dh_auto_build -- VERBOSE=$(DH_VERBOSE) sphinx-doctest
+	# Tests are currently ignored, but results fully logged
+	dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" test; echo $?
+	dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" sphinx-doctest; echo $?
 
 override_dh_auto_install:
 	dh_auto_install

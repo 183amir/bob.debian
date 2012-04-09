@@ -8,7 +8,7 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="1"
+ppa_iteration="2"
 gpg_key="A2170D5D"
 
 if [ ! -e ${package}.orig.tar.gz ]; then
