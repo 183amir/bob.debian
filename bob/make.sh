@@ -10,9 +10,8 @@ version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="4"
 gpg_key="A2170D5D"
-source_shipped=true; #if you set this to true, all changes will ship w/o srcs
-#distros="precise oneiric natty maverick lucid"
-distros="oneiric natty"
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+distros="precise oneiric natty maverick lucid"
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -41,9 +40,9 @@ for distro in ${distros}; do
   fi
   sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  if [ ! ${source_shipped} ]; then
+  if [ "${source_shipped}" = "1" ]; then
     debuild -k${gpg_key} -sa -S;
-    source_shipped=true;
+    source_shipped=0;
   else
     debuild -k${gpg_key} -sd -S;
   fi
