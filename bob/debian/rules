@@ -13,7 +13,7 @@ export DH_OPTIONS
 PYTHON2 := $(shell pyversions -dv)
 
 %:
-	dh $@ --parallel --with @DH_PYTHON@
+	dh $@ --parallel --with python2
 
 override_dh_auto_configure:
 	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_SOVERSION=@SOVERSION@

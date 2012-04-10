@@ -8,8 +8,8 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="4"
-distros=oneiric
+ppa_iteration="5"
+distros=precise
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
