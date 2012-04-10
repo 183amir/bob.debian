@@ -8,7 +8,7 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="4"
+ppa_iteration="5"
 gpg_key="A2170D5D"
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 distros="precise oneiric natty maverick lucid"
