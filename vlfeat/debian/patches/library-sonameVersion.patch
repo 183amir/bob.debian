@@ -1,0 +1,13 @@
+Index: vlfeat-0.9.14/make/dll.mak
+===================================================================
+--- vlfeat-0.9.14.orig/make/dll.mak	2011-12-24 17:05:35.000000000 +0100
++++ vlfeat-0.9.14/make/dll.mak	2012-04-10 13:07:29.265610185 +0200
+@@ -21,7 +21,7 @@
+ DLL_NAME = vl
+ 
+ DLL_CFLAGS  = $(STD_CFLAGS)
+-DLL_CFLAGS += -fvisibility=hidden -fPIC -DVL_BUILD_DLL -pthread
++DLL_CFLAGS += -fvisibility=hidden -fPIC -DVL_BUILD_DLL -pthread -Wl,-soname,libvl.so.0
+ DLL_CFLAGS += $(call if-like,%_sse2,$*,-msse2)
+ 
+ DLL_LDFLAGS += -lm
