@@ -8,7 +8,7 @@
 soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="2"
+ppa_iteration="4"
 distros=oneiric
 
 if [ ! -e ${package}.orig.tar.gz ]; then
