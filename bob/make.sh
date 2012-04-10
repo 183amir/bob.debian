@@ -33,11 +33,11 @@ for distro in precise oneiric natty maverick lucid; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
-  if [ "${distro}" = "lucid" ]; then
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python_support/g" debian/rules
-  else
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
+  if [ -e ../os.files/rules.${distro} ]; then
+    echo "Overriding with special rules for '${distro}'..."
+    cp -L -f ../os.files/rules.${distro} debian/rules
   fi
+  sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
   if [ ! ${source_shipped} ]; then
     debuild -k${gpg_key} -sa -S;

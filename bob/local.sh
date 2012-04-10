@@ -9,7 +9,7 @@ soversion="1.0"
 version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="2"
-distros=lucid
+distros=oneiric
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
@@ -35,10 +35,9 @@ for distro in ${distros}; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
-  if [ "${distro}" = "lucid" ]; then
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python_support/g" debian/rules
-  else
-    sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g;s/@DH_PYTHON@/python2/g" debian/rules
+  if [ -e ../os.files/rules.${distro} ]; then
+    echo "Overriding with special rules for '${distro}'..."
+    cp -L -f ../os.files/rules.${distro} debian/rules
   fi
   sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
