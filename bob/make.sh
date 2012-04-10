@@ -11,7 +11,8 @@ package="bob_${version}"
 ppa_iteration="4"
 gpg_key="A2170D5D"
 source_shipped=true; #if you set this to true, all changes will ship w/o srcs
-distros=precise oneiric natty maverick lucid
+#distros="precise oneiric natty maverick lucid"
+distros="oneiric natty"
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
