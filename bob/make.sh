@@ -11,6 +11,7 @@ package="bob_${version}"
 ppa_iteration="4"
 gpg_key="A2170D5D"
 source_shipped=true; #if you set this to true, all changes will ship w/o srcs
+distros=precise oneiric natty maverick lucid
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -24,7 +25,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
-for distro in precise oneiric natty maverick lucid; do
+for distro in ${distros}; do
   ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
