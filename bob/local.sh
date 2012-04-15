@@ -6,9 +6,9 @@
 
 # Configure here your parameters for the package you are building
 soversion="1.0"
-version="${soversion}.1"
+version="${soversion}.2"
 package="bob_${version}"
-ppa_iteration="5"
+ppa_iteration="1"
 distros=precise
 
 if [ ! -e ${package}.orig.tar.gz ]; then
