@@ -7,8 +7,8 @@
 
 # Configure here your parameters for the package you are building
 base_blitz_version="0.10-hg"
-ppa_iteration="4"
-gpg_key="A2170D5D"
+ppa_iteration="1"
+gpg_key="E0CE7EF8"
 
 # 1) Clone the mercurial repository
 if [ -e blitz.clone ]; then
@@ -39,6 +39,9 @@ for distro in precise oneiric natty maverick lucid; do
   cp -r blitz.clone blitz++_${blitz_version}.orig
   cd blitz++_${blitz_version}.orig
   rm -rf .hg .hgtags .cvsignore
+  if [ ! -e ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz ]; then
+    tar -cvzf ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz *
+  fi
   cd ..
   cp -r blitz++_${blitz_version}.orig blitz++_${blitz_version}
   cd blitz++_${blitz_version}
@@ -46,7 +49,6 @@ for distro in precise oneiric natty maverick lucid; do
   sed -i -e "s/@VERSION@/${blitz_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${blitz_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
   debuild -k${gpg_key} -sa -S;
-  #debuild -k${gpg_key} -sd -S;
   cd ..
   rm -rf blitz++_${blitz_version}.orig blitz++_${blitz_version}
 done
