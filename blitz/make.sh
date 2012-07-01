@@ -7,7 +7,7 @@
 
 # Configure here your parameters for the package you are building
 base_blitz_version="0.10-hg"
-ppa_iteration="1"
+ppa_iteration="3"
 gpg_key="E0CE7EF8"
 
 # 1) Clone the mercurial repository

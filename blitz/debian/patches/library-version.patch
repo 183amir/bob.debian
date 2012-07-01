@@ -1,10 +1,13 @@
---- blitz.clone/lib/Makefile.am	2012-04-01 20:06:06.472703009 +0200
-+++ blitz.local/lib/Makefile.am	2012-04-01 20:58:33.724732614 +0200
-@@ -9,6 +9,7 @@
+Index: blitz.clone/lib/Makefile.am
+===================================================================
+--- blitz.clone.orig/lib/Makefile.am	2012-05-11 22:11:13.000000000 +0200
++++ blitz.clone/lib/Makefile.am	2012-07-01 16:34:15.833279667 +0200
+@@ -9,7 +9,7 @@
  lib_LTLIBRARIES = libblitz.la
  libblitz_la_SOURCES = $(top_srcdir)/src/globals.cpp
  libblitz_la_LIBADD = $(LIBS) $(CXX_LIBS)
+-
 +libblitz_la_LDFLAGS=-version-info 1
  
- 
  clean-local:
+ 	-rm -rf *.ii *.ti cxx_repository Template.dir ii_files ti_files
