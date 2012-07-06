@@ -6,17 +6,17 @@
 # and findings.
 
 # Configure here your parameters for the package you are building
-base_blitz_version="0.10"
+base_blitz_version="0.10-July3"
 ppa_iteration="1"
 gpg_key="E0CE7EF8"
 
 # 1) Clone the mercurial repository
-if [ ! -e blitz++_0.10.orig.tar.gz]
+if [ ! -e blitz++_0.10-July3.orig.tar.gz ]
 then 
   wget http://downloads.sourceforge.net/project/blitz/blitz/Blitz++\ 0.10/blitz-0.10.tar.gz
-  mv blitz-0.10.tar.gz blitz++_0.10.orig.tar.gz
+  mv blitz-0.10.tar.gz blitz++_0.10-July3.orig.tar.gz
 fi
-tar -xvzf blitz++_0.10.orig.tar.gz
+tar -xvzf blitz++_0.10-July3.orig.tar.gz
 echo "Cloning done."
 rm -r blitz.clone
 mv blitz-0.10 blitz.clone

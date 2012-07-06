@@ -11,7 +11,7 @@ ppa_iteration="1"
 gpg_key="A2170D5D"
 
 # 1) Clone the mercurial repository
-if [ ! -e blitz++_0.10.orig.tar.gz]
+if [ ! -e blitz++_0.10.orig.tar.gz ]
 then 
   wget http://downloads.sourceforge.net/project/blitz/blitz/Blitz++\ 0.10/blitz-0.10.tar.gz
   mv blitz-0.10.tar.gz blitz++_0.10.orig.tar.gz
