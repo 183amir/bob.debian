@@ -6,12 +6,12 @@
 
 # Configure here your parameters for the package you are building
 soversion="1.0"
-version="${soversion}.5"
+version="${soversion}.6"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"
 source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
-distros="precise oneiric natty maverick lucid"
+distros="quantal precise oneiric natty maverick lucid"
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
