@@ -6,49 +6,50 @@
 # and findings.
 
 # Configure here your parameters for the package you are building
-base_blitz_version="0.10-hg"
-ppa_iteration="3"
-gpg_key="E0CE7EF8"
+base_blitz_version="0.10-July3"
+ppa_iteration="1"
+#gpg_key="E0CE7EF8" LES
+gpg_key="A2170D5D"
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 
 # 1) Clone the mercurial repository
-if [ -e blitz.clone ]; then
-  echo "Updating Blitz++ Mercurial Repository..."
-  cd blitz.clone
-  hg pull
-  cd ..
-  echo "Updating done."
-else
-  echo "Cloning Blitz++ Mercurial Repository..."
-  hg clone http://blitz.hg.sourceforge.net:8000/hgroot/blitz/blitz blitz.clone
-  echo "Cloning done."
+if [ ! -e blitz++_0.10-July3.orig.tar.gz ]
+then 
+  wget http://downloads.sourceforge.net/project/blitz/blitz/Blitz++\ 0.10/blitz-0.10.tar.gz
+  mv blitz-0.10.tar.gz blitz++_0.10-July3.orig.tar.gz
 fi
-
-cd blitz.clone
-hg_version=`hg log -l1 | head -n1 | awk '{print $2}' | sed -e 's/:.*$//g'`
-cd ..
-
+tar -xvzf blitz++_0.10-July3.orig.tar.gz
+echo "Cloning done."
+rm -r blitz.clone
+mv blitz-0.10 blitz.clone
+#hg_version=1902
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
-blitz_version="${base_blitz_version}${hg_version}"
-echo "Blitz++ version checkout: ${blitz_version}"
+blitz_version="${base_blitz_version}"
+echo "Blitz++ version: ${blitz_version}"
 
-for distro in precise oneiric natty maverick lucid; do
-  ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
+for distro in quantal precise oneiric natty maverick lucid; do
+  ppa_version="3:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
   echo "Generating source packages for Ubuntu '${distro}'..."
   cp -r blitz.clone blitz++_${blitz_version}.orig
-  cd blitz++_${blitz_version}.orig
-  rm -rf .hg .hgtags .cvsignore
-  if [ ! -e ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz ]; then
-    tar -cvzf ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz *
-  fi
-  cd ..
+  #cd blitz++_${blitz_version}.orig
+  #rm -rf .hg .hgtags .cvsignore
+  #if [ ! -e ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz ]; then
+  #  tar -cvzf ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz *
+  #fi
+  #cd ..
   cp -r blitz++_${blitz_version}.orig blitz++_${blitz_version}
   cd blitz++_${blitz_version}
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${blitz_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${blitz_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -k${gpg_key} -sa -S;
+  if [ "${source_shipped}" = "1" ]; then
+    debuild -k${gpg_key} -sa -S;
+    source_shipped=0;
+  else
+    debuild -k${gpg_key} -sd -S;
+  fi
   cd ..
   rm -rf blitz++_${blitz_version}.orig blitz++_${blitz_version}
 done
