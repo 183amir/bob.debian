@@ -7,7 +7,9 @@
 # Configure here your parameters for the package you are building
 vlfeat_version="0.9.14"
 ppa_iteration="3"
-gpg_key="E0CE7EF8"
+#gpg_key="E0CE7EF8" #LES
+gpg_key="A2170D5D" #AA
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 
 # 1) Get the latest release source code
 wget http://www.vlfeat.org/download/vlfeat-${vlfeat_version}.tar.gz
@@ -20,7 +22,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "VLFeat version          : ${vlfeat_version}"
 
-for distro in precise oneiric natty maverick lucid; do
+for distro in quantal precise oneiric natty maverick lucid; do
   ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 
@@ -30,7 +32,12 @@ for distro in precise oneiric natty maverick lucid; do
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${vlfeat_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${vlfeat_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -k${gpg_key} -sa -S;
+  if [ "${source_shipped}" = "1" ]; then
+    debuild -k${gpg_key} -sa -S;
+    source_shipped=0;
+  else
+    debuild -k${gpg_key} -sd -S;
+  fi
   cd ..
   rm -rf vlfeat_${vlfeat_version} 
 done
