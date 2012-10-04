@@ -1,3 +1,4 @@
 usr/include/*
-usr/share/cmake/*
 usr/lib/*.so
+usr/lib/bob/*.cmake
+usr/lib/pkgconfig/*.pc

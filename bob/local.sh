@@ -5,8 +5,9 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.0"
-version="${soversion}.2"
+soversion="1.1"
+commit="b83cd57"
+version="${soversion}.0+g${commit}"
 package="bob_${version}"
 ppa_iteration="1"
 distros=precise

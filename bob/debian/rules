@@ -27,6 +27,7 @@ override_dh_auto_build:
 override_dh_auto_test:
 	# Tests are currently ignored, but results fully logged
 	(dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" test || echo)
+	(dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" nosetests || echo)
 	(dh_auto_build -- VERBOSE=$(DH_VERBOSE) ARGS="-V" sphinx-doctest || echo)
 
 override_dh_auto_install:
