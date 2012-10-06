@@ -5,8 +5,8 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.0"
-version="${soversion}.6"
+soversion="1.1"
+version="${soversion}.0"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"
