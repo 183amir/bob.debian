@@ -13,6 +13,9 @@ Edit the `make.sh` file to set the build properties and then, run it:
 $ ./make.sh
 ```
 
+Verify that the patches (if specific patches exists) in `os.files` are still
+needed.
+
 Upload the packages to our launchpad site:
 
 ```sh
