@@ -3,10 +3,10 @@
 # Mon 02 Apr 2012 09:58:12 AM CEST
 
 # Creates a new version of the base tarball with the databases
-commit="b83cd57"
+commit="1e7c846c08"
 version="1.1.0"
-
-bob="bob_${version}+g${commit}.orig"
+#bob="bob_${version}+g${commit}.orig"
+bob="bob_${version}.orig"
 
 if [ -e ${bob}.tar.gz ]; then
   echo "error: a version of '${bob}.orig.tar.gz' exists"

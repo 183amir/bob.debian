@@ -6,11 +6,12 @@
 
 # Configure here your parameters for the package you are building
 soversion="1.1"
-commit="b83cd57"
-version="${soversion}.0+g${commit}"
+commit="1e7c846c08"
+#version="${soversion}.0+g${commit}"
+version="${soversion}.0"
 package="bob_${version}"
-ppa_iteration="1"
-distros=precise
+ppa_iteration="1.1"
+distros=`lsb_release -c -s`
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
@@ -39,6 +40,11 @@ for distro in ${distros}; do
   if [ -e ../os.files/rules.${distro} ]; then
     echo "Overriding with special rules for '${distro}'..."
     cp -L -f ../os.files/rules.${distro} debian/rules
+  fi
+  if [ -d ../os.files/patches.${distro} ]; then
+    echo "Overriding with special patches for '${distro}'..."
+    rm -rf debian/patches
+    cp -L -f -r ../os.files/patches.${distro} debian/patches
   fi
   sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog

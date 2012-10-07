@@ -38,6 +38,11 @@ for distro in ${distros}; do
     echo "Overriding with special rules for '${distro}'..."
     cp -L -f ../os.files/rules.${distro} debian/rules
   fi
+  if [ -d ../os.files/patches.${distro} ]; then
+    echo "Overriding with special patches for '${distro}'..."
+    rm -rf debian/patches
+    cp -L -f -r ../os.files/patches.${distro} debian/patches
+  fi
   sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
   sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
   if [ "${source_shipped}" = "1" ]; then

@@ -1,0 +1,193 @@
+diff --git a/src/io/python/hdf5.cc b/src/io/python/hdf5.cc
+index 8a0e66e..2d37167 100644
+--- a/src/io/python/hdf5.cc
++++ b/src/io/python/hdf5.cc
+@@ -355,7 +355,7 @@ static void inner_append(io::HDF5File& f, const std::string& path,
+ 
+ static void hdf5file_append_iterable(io::HDF5File& f, const std::string& path,
+   object iterable, size_t compression) {
+-  for (auto k=0; k<len(iterable); ++k) {
++  for (int k=0; k<len(iterable); ++k) {
+     object obj = iterable[k];
+     io::HDF5Type type;
+     bool scalar = get_object_type(obj, type);
+@@ -520,7 +520,7 @@ static dict hdf5file_get_attributes(const io::HDF5File& f, const std::string& pa
+   std::map<std::string, io::HDF5Type> attributes;
+   f.listAttributes(path, attributes);
+   dict retval;
+-  for (auto k=attributes.begin(); k!=attributes.end(); ++k) {
++  for (std::map<std::string, io::HDF5Type>::iterator k=attributes.begin(); k!=attributes.end(); ++k) {
+     if (k->second.type() == io::unsupported) {
+       boost::format m("unsupported HDF5 data type detected for attribute '%s' - setting None");
+       m % k->first;
+@@ -621,7 +621,7 @@ static void inner_set_attr(io::HDF5File& f, const std::string& path,
+ 
+ static void hdf5file_set_attributes(io::HDF5File& f, dict attributes, const std::string& path=".") {
+   object keys = attributes.iterkeys();
+-  for (auto k=0; k<len(keys); ++k) {
++  for (int k=0; k<len(keys); ++k) {
+     std::string key = extract<std::string>(keys[k]);
+     io::HDF5Type type;
+     object obj = attributes[keys[k]];
+@@ -655,7 +655,7 @@ BOOST_PYTHON_FUNCTION_OVERLOADS(hdf5file_del_attribute_overloads, hdf5file_del_a
+ static void hdf5file_del_attributes(io::HDF5File& f, const std::string& path=".") {
+   std::map<std::string, io::HDF5Type> attributes;
+   f.listAttributes(path, attributes);
+-  for (auto k=attributes.begin(); k!=attributes.end(); ++k) {
++  for (std::map<std::string, io::HDF5Type>::iterator k=attributes.begin(); k!=attributes.end(); ++k) {
+     f.deleteAttribute(path, k->first);
+   }
+ }
+diff --git a/src/ip/cxx/test/TanTriggs.cc b/src/ip/cxx/test/TanTriggs.cc
+index 3e6589a..757ecbb 100644
+--- a/src/ip/cxx/test/TanTriggs.cc
++++ b/src/ip/cxx/test/TanTriggs.cc
+@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE( test_tantriggs_2d )
+   // Load original image
+   boost::filesystem::path testdata_path_img( testdata_cpath);
+   testdata_path_img /= "image.pgm";
+-  auto img = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   blitz::Array<double,2> img_processed(img.shape());
+   bob::ip::TanTriggs tt_filter;
+   tt_filter(img,img_processed);
+@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE( test_tantriggs_2d )
+   // First test
+   testdata_path_img = testdata_cpath;
+   testdata_path_img /= "image_tantriggs.pgm";
+-  auto img_ref = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img_ref = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   blitz::Array<uint8_t,2> img_processed_u = bob::core::convertFromRange<uint8_t>(
+       img_processed, blitz::min(img_processed), blitz::max(img_processed));
+   checkBlitzClose( img_processed_u, img_ref, eps);
+diff --git a/src/ip/cxx/test/WeightedGaussian.cc b/src/ip/cxx/test/WeightedGaussian.cc
+index 8411d6b..c138130 100644
+--- a/src/ip/cxx/test/WeightedGaussian.cc
++++ b/src/ip/cxx/test/WeightedGaussian.cc
+@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE( test_gaussianSmoothing_2d_image )
+   // Load original image
+   boost::filesystem::path testdata_path_img( testdata_cpath);
+   testdata_path_img /= "image.pgm";
+-  auto img = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   blitz::Array<double,2> img_processed(img.shape());
+   bob::ip::WeightedGaussian g_filter(1,1,0.5,0.5);
+   g_filter(img,img_processed);
+@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE( test_gaussianSmoothing_2d_image )
+   // Compare to reference image
+   testdata_path_img = testdata_cpath;
+   testdata_path_img /= "image_WeightedGaussian.hdf5";
+-  auto img_ref = bob::io::load<double,2>(testdata_path_img.string());
++  blitz::Array<double,2> img_ref = bob::io::load<double,2>(testdata_path_img.string());
+   checkBlitzClose( img_processed, img_ref, eps);
+ }
+ 
+diff --git a/src/ip/cxx/test/geomnorm.cc b/src/ip/cxx/test/geomnorm.cc
+index 1178631..d4562c0 100644
+--- a/src/ip/cxx/test/geomnorm.cc
++++ b/src/ip/cxx/test/geomnorm.cc
+@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE( test_geomnorm )
+   // Load original image
+   boost::filesystem::path testdata_path_img( testdata_cpath);
+   testdata_path_img /= "image_r10.pgm";
+-  auto img = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   blitz::Array<double,2> img_processed_d(40,40);
+   
+   // Define a Geometric normalizer 
+@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE( test_geomnorm )
+   testdata_path_img = testdata_cpath;
+   testdata_path_img /= "image_r10_geomnorm.pgm";
+ //  bob::io::save(testdata_path_img.string(), img_processed); // Re-generate reference data
+-  auto img_ref_geomnorm = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img_ref_geomnorm = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   checkBlitzClose( img_ref_geomnorm, img_processed, eps);
+ }
+ 
+@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE( test_geomnorm_with_mask )
+   // Load original image
+   boost::filesystem::path testdata_path(testdata_cpath);
+   testdata_path /= "image_r70.pgm";
+-  auto input_image = bob::io::load<uint8_t,2>(testdata_path.string());
++  blitz::Array<uint8_t,2> input_image = bob::io::load<uint8_t,2>(testdata_path.string());
+   blitz::Array<double,2> output_image(160,160);
+   
+   blitz::Array<bool,2> input_mask(input_image.shape()[0],input_image.shape()[1]);
+@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE( test_geomnorm_with_mask )
+   testdata_path = testdata_cpath;
+   testdata_path /= "image_r70_mask.pgm";
+ //  bob::io::open(testdata_path.string(), 'w')->write(output_mask_uint8); // Re-generate reference data
+-  auto output_reference = bob::io::load<uint8_t,2>(testdata_path.string());
++  blitz::Array<uint8_t,2> output_reference = bob::io::load<uint8_t,2>(testdata_path.string());
+   checkBlitzEqual(output_mask_uint8, output_reference);
+ }
+ 
+diff --git a/src/ip/cxx/test/scale.cc b/src/ip/cxx/test/scale.cc
+index d9adb23..0ff96a3 100644
+--- a/src/ip/cxx/test/scale.cc
++++ b/src/ip/cxx/test/scale.cc
+@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE( test_scale_2d_generic_uint8 )
+   // Load original image
+   boost::filesystem::path testdata_path_img( testdata_cpath);
+   testdata_path_img /= "image.pgm";
+-  auto img = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   blitz::Array<double,2> img_processed;
+ 
+   // Scale original image and compare with ImageMagick reference image
+@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE( test_scale_2d_generic_uint8 )
+ #ifdef REGENERATE_REFERENCE_IMAGES
+   bob::io::save(testdata_path_img.string(), bob::core::cast<uint8_t>(img_processed));
+ #else // REGENERATE_REFERENCE_IMAGES
+-  auto img_ref_s137 = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img_ref_s137 = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   checkBlitzClose( img_ref_s137, img_processed, eps);
+ #endif // REGENERATE_REFERENCE_IMAGES
+ 
+@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE( test_scale_2d_generic_uint8 )
+ #ifdef REGENERATE_REFERENCE_IMAGES
+   bob::io::save(testdata_path_img.string(), bob::core::cast<uint8_t>(img_processed));
+ #else // REGENERATE_REFERENCE_IMAGES
+-  auto img_ref_s77 = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img_ref_s77 = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   checkBlitzClose( img_ref_s77, img_processed, eps);
+ #endif // REGENERATE_REFERENCE_IMAGES
+ 
+@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE( test_scale_2d_generic_uint8 )
+ #ifdef REGENERATE_REFERENCE_IMAGES
+   bob::io::save(testdata_path_img.string(), bob::core::cast<uint8_t>(img_processed));
+ #else // REGENERATE_REFERENCE_IMAGES
+-  auto img_ref_s125x75 = bob::io::load<uint8_t,2>(testdata_path_img.string());
++  blitz::Array<uint8_t,2> img_ref_s125x75 = bob::io::load<uint8_t,2>(testdata_path_img.string());
+   checkBlitzClose( img_ref_s125x75, img_processed, eps);
+ #endif // REGENERATE_REFERENCE_IMAGES
+ 
+diff --git a/src/machine/cxx/test/gabor.cc b/src/machine/cxx/test/gabor.cc
+index 69e3fa8..06f8238 100644
+--- a/src/machine/cxx/test/gabor.cc
++++ b/src/machine/cxx/test/gabor.cc
+@@ -83,13 +83,13 @@ BOOST_AUTO_TEST_CASE( test_gabor_graph_machine )
+ #ifdef GENERATE_NEW_REFERENCE_FILES
+   bob::io::save(node_position_file.string(), machine.nodes());
+ #else // GENERATE_NEW_REFERENCE_FILES
+-  auto node_positions = bob::io::load<int,2>(node_position_file.string());
++  blitz::Array<int,2> node_positions = bob::io::load<int,2>(node_position_file.string());
+   test_identical(machine.nodes(), node_positions);
+ #endif // GENERATE_NEW_REFERENCE_FILES
+ 
+   // Load original image
+   boost::filesystem::path image_file = boost::filesystem::path(data_dir) / "image.pgm";
+-  auto uint8_image = bob::io::load<uint8_t,2>(image_file.string());
++  blitz::Array<uint8_t,2> uint8_image = bob::io::load<uint8_t,2>(image_file.string());
+   blitz::Array<std::complex<double>,2> image = bob::core::cast<std::complex<double> >(uint8_image);
+ 
+   // perform Gabor wavelet transform
+@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE( test_gabor_graph_machine )
+   bob::io::save(graph_jets_file.string(), graph);
+   blitz::Array<double,3> graph_jets = graph;
+ #else // GENERATE_NEW_REFERENCE_FILES
+-  auto graph_jets = bob::io::load<double,3>(graph_jets_file.string());
++  blitz::Array<double,3> graph_jets = bob::io::load<double,3>(graph_jets_file.string());
+   test_close(graph, graph_jets);
+ #endif // GENERATE_NEW_REFERENCE_FILES
+ 
