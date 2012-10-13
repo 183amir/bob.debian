@@ -22,18 +22,6 @@ Upload the packages to our launchpad site:
 $ dput ppa:biometrics/bob *.changes
 ```
 
-Building from Git
------------------
-
-When you build from the git repository, your tarball will not contain the
-databases. Download the databases by modifying the script `pack.sh`, then:
-
-```sh
-$ ./pack.sh
-```
-
-To generate a valid `orig` package before running `make.sh` as explained above.
-
 Local builds
 ------------
 
