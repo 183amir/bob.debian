@@ -6,10 +6,11 @@
 
 # Configure here your parameters for the package you are building
 soversion="1.1"
-version="${soversion}.0"
+version="${soversion}.1"
 package="bob_${version}"
 ppa_iteration="1"
-gpg_key="A2170D5D"
+#gpg_key="A2170D5D"
+gpg_key="E0CE7EF8"
 source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
 distros="quantal precise oneiric natty maverick lucid"
 
@@ -34,6 +35,10 @@ for distro in ${distros}; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
+  if [ -e ../os.files/control.${distro} ]; then
+    echo "Overriding with special control for '${distro}'..."
+    cp -L -f ../os.files/control.${distro} debian/control
+  fi
   if [ -e ../os.files/rules.${distro} ]; then
     echo "Overriding with special rules for '${distro}'..."
     cp -L -f ../os.files/rules.${distro} debian/rules

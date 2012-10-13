@@ -1,3 +1,1 @@
 use-c++98.patch
-avoid-auto-variable-APPLIED-UPSTREAM.patch
-remove-ndarray-printouts-APPLIED-UPSTREAM.patch
