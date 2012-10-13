@@ -16,10 +16,19 @@ $ ./make.sh
 Verify that the patches (if specific patches exists) in `os.files` are still
 needed.
 
-Upload the packages to our launchpad site:
+Upload the packages to our launchpad site, starting with the first version
+that was packaged, as it will be the one containing bob sources:
+
+If quantal:
 
 ```sh
-$ dput ppa:biometrics/bob *.changes
+$ dput ppa:biometrics/bob *quantal*.changes
+```
+
+Then the remaining ones, e.g.:
+
+```sh
+$ dput ppa:biometrics/bob *{precise,oneiric,maverick,natty,lucid}*.changes
 ```
 
 Local builds
