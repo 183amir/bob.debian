@@ -8,11 +8,13 @@
 soversion="1.1"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="1"
-#gpg_key="A2170D5D"
-gpg_key="E0CE7EF8"
-source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
-distros="quantal precise oneiric natty maverick lucid"
+ppa_iteration="2.1"
+gpg_key="A2170D5D";
+#gpg_key="E0CE7EF8";
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+#source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
+distros="quantal";
+#distros="quantal precise oneiric natty maverick lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;

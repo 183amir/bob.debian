@@ -3,8 +3,8 @@
 # Mon 02 Apr 2012 09:58:12 AM CEST
 
 # Creates a new version of the base tarball with the databases
-commit="1e7c846c08"
-version="1.1.0"
+commit="7b064026"
+version="1.1.1b1"
 #bob="bob_${version}+g${commit}.orig"
 bob="bob_${version}.orig"
 

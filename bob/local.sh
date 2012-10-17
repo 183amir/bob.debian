@@ -8,9 +8,9 @@
 soversion="1.1"
 commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.0"
+version="${soversion}.1b1"
 package="bob_${version}"
-ppa_iteration="1.1"
+ppa_iteration="1"
 distros=`lsb_release -c -s`
 
 if [ ! -e ${package}.orig.tar.gz ]; then
