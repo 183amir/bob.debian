@@ -8,7 +8,7 @@
 soversion="1.1"
 version="${soversion}.1"
 package="bob_${version}"
-ppa_iteration="2.1"
+ppa_iteration="3"
 gpg_key="A2170D5D";
 #gpg_key="E0CE7EF8";
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
