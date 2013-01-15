@@ -1,1 +1,2 @@
 use-c++98.patch
+remove-auto-keyword.patch

@@ -1,0 +1,60 @@
+Index: bob_1.1.2.orig/src/io/cxx/VideoFile.cc
+===================================================================
+--- bob_1.1.2.orig.orig/src/io/cxx/VideoFile.cc	2013-01-15 17:43:52.666035737 +0100
++++ bob_1.1.2.orig/src/io/cxx/VideoFile.cc	2013-01-15 17:47:35.726035899 +0100
+@@ -189,15 +189,15 @@
+   boost::char_separator<char> sep(",");
+   std::string w(what);
+   boost::tokenizer< boost::char_separator<char> > tok(w, sep);
+-  for (auto k = tok.begin(); k != tok.end(); ++k) values.push_back(*k);
++  for (boost::tokenizer< boost::char_separator<char> >::const_iterator k = tok.begin(); k != tok.end(); ++k) values.push_back(*k);
+ }
+ 
+ static void iformats_installed (std::map<std::string, AVInputFormat*>& installed) {
+   for (AVInputFormat* it = av_iformat_next(0); it != 0; it = av_iformat_next(it) ) {
+     std::vector<std::string> names;
+     tokenize_csv(it->name, names);
+-    for (auto k = names.begin(); k != names.end(); ++k) {
+-      auto exists = installed.find(*k);
++    for (std::vector<std::string>::iterator k = names.begin(); k != names.end(); ++k) {
++      std::map<std::string, AVInputFormat*>::iterator exists = installed.find(*k);
+       if (exists != installed.end()) {
+         bob::core::warn << "Not overriding input video format \"" 
+           << it->long_name << "\" (" << *k 
+@@ -214,8 +214,8 @@
+     if (!it->video_codec) continue;
+     std::vector<std::string> names;
+     tokenize_csv(it->name, names);
+-    for (auto k = names.begin(); k != names.end(); ++k) {
+-      auto exists = installed.find(*k);
++    for (std::vector<std::string>::const_iterator k = names.begin(); k != names.end(); ++k) {
++      std::map<std::string, AVOutputFormat*>::iterator exists = installed.find(*k);
+       if (exists != installed.end()) {
+         bob::core::warn << "Not overriding output video format \""
+           << it->long_name << "\" (" << *k 
+@@ -236,13 +236,13 @@
+   std::map<std::string, AVOutputFormat*> oformat;
+   oformats_installed(oformat);
+ 
+-  for (auto k=iformat.begin(); k!=iformat.end(); ++k) {
+-    auto o=oformat.find(k->first);
++  for (std::map<std::string, AVInputFormat*>::iterator k=iformat.begin(); k!=iformat.end(); ++k) {
++    std::map<std::string, AVOutputFormat*>::iterator o=oformat.find(k->first);
+     if (o!=oformat.end()) {
+       //format can be used for input and output
+       std::vector<std::string> extensions;
+       tokenize_csv(o->second->extensions, extensions);
+-      for (auto e=extensions.begin(); e!=extensions.end(); ++e) {
++      for (std::vector<std::string>::iterator e=extensions.begin(); e!=extensions.end(); ++e) {
+         std::string key = ".";
+         key += *e;
+         std::string value = k->second->long_name;
+@@ -288,7 +288,7 @@
+ 
+   std::map<std::string, std::string> formats;
+   list_formats(formats);
+-  for (auto k=formats.begin(); k!=formats.end(); ++k) {
++  for (std::map<std::string, std::string>::iterator k=formats.begin(); k!=formats.end(); ++k) {
+     if (avoid.find(k->first) == avoid.end()) {
+       instance->registerExtension(k->first, k->second, &make_file);
+     }
