@@ -9,15 +9,14 @@ soversion="1.1"
 version="${soversion}.3"
 package="bob_${version}"
 ppa_iteration="1"
-#gpg_key="A2170D5D"; # Andre
-gpg_key="E0CE7EF8"; # Laurentes
+gpg_key="A2170D5D"; # Andre
+#gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=0; #if you set this to 1, all changes will ship with srcs
 source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
 #distros="quantal";
 distros="quantal precise oneiric lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
-  #wget https://launchpad.net/~biometrics/+archive/bob/+files/bob_1.1.1.orig.tar.gz
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
   tar xfz bob-${version}.tar.gz;
   rm -f bob-${version}.tar.gz;

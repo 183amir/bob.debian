@@ -4,7 +4,7 @@
 
 # Creates a new version of the base tarball with the databases
 commit="7b064026"
-version="1.1.1b1"
+version="1.1.3"
 #bob="bob_${version}+g${commit}.orig"
 bob="bob_${version}.orig"
 
