@@ -28,7 +28,7 @@ $ dput ppa:biometrics/bob *quantal*.changes
 Then the remaining ones, e.g.:
 
 ```sh
-$ dput ppa:biometrics/bob *{precise,oneiric,maverick,natty,lucid}*.changes
+$ dput ppa:biometrics/bob *{precise,oneiric,lucid}*.changes
 ```
 
 Local builds
