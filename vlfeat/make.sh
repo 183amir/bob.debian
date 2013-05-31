@@ -5,11 +5,11 @@
 # Creates a new debian package for VLFeat based on Laurent
 
 # Configure here your parameters for the package you are building
-vlfeat_version="0.9.14"
-ppa_iteration="3"
+vlfeat_version="0.9.16"
+ppa_iteration="1"
 #gpg_key="E0CE7EF8" #LES
 gpg_key="A2170D5D" #AA
-source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
 
 # 1) Get the latest release source code
 wget http://www.vlfeat.org/download/vlfeat-${vlfeat_version}.tar.gz
@@ -22,7 +22,7 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "VLFeat version          : ${vlfeat_version}"
 
-for distro in quantal precise oneiric natty maverick lucid; do
+for distro in raring quantal precise lucid; do
   ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
 

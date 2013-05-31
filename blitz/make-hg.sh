@@ -32,7 +32,7 @@ echo "Today                   : ${date}"
 blitz_version="${base_blitz_version}${hg_version}"
 echo "Blitz++ version checkout: ${blitz_version}"
 
-for distro in precise oneiric natty maverick lucid; do
+for distro in raring quantal precise lucid; do
   ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
   echo "Generating source packages for Ubuntu '${distro}'..."

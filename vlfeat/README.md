@@ -1,5 +1,5 @@
-Blitz++ Package Construction
-============================
+VLfeat Package Construction
+===========================
 
 Install the `devscripts` package:
 
