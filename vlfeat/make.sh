@@ -10,17 +10,31 @@ ppa_iteration="1"
 #gpg_key="E0CE7EF8" #LES
 gpg_key="A2170D5D" #AA
 source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
+subdir=vlfeat-${vlfeat_version}
+filename=${subdir}.tar.gz
 
 # 1) Get the latest release source code
-wget http://www.vlfeat.org/download/vlfeat-${vlfeat_version}.tar.gz
+if [ ! -e ${filename} ]; then
+  wget http://www.vlfeat.org/download/vlfeat-${vlfeat_version}.tar.gz
+fi
+
+if [ -d ${subdir} ]; then rm -rf ${subdir}; fi
+
 tar -xvzf vlfeat-${vlfeat_version}.tar.gz
+
+if [ -e vlfeat_${vlfeat_version}.orig.tar.gz ]; then
+  rm -f vlfeat_${vlfeat_version}.orig.tar.gz;
+fi
 cp vlfeat-${vlfeat_version}.tar.gz vlfeat_${vlfeat_version}.orig.tar.gz
+
+if [ -d vlfeat.clone ]; then rm vlfeat.clone; fi
 mv vlfeat-${vlfeat_version} vlfeat.clone
 
-
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-echo "Today                   : ${date}"
-echo "VLFeat version          : ${vlfeat_version}"
+source /etc/lsb-release
+echo "Today          : ${date}"
+echo "VLFeat version : ${vlfeat_version}"
+echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
 
 for distro in raring quantal precise lucid; do
   ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"
