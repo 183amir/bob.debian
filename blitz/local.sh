@@ -17,16 +17,17 @@ then
   mv blitz-0.10.tar.gz blitz++_0.10.orig.tar.gz
 fi
 tar -xvzf blitz++_0.10.orig.tar.gz
-echo "Cloning done."
-rm -r blitz.clone
+if [ -d blitz.clone]; then rm -r blitz.clone; fi
 mv blitz-0.10 blitz.clone
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-echo "Today                   : ${date}"
 blitz_version="${base_blitz_version}"
+source /etc/lsb-release
+echo "Today          : ${date}"
 echo "Blitz++ version: ${blitz_version}"
+echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
 
-for distro in unknown; do
+for distro in ${DISTRIB_CODENAME}; do
   rm -rf blitz.local *.build
   ppa_version="3:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
@@ -34,7 +35,6 @@ for distro in unknown; do
   echo "Generating source packages for Ubuntu '${distro}'..."
   cp -r blitz.clone blitz.local
   cd blitz.local
-  rm -rf .hg .hgtags .cvsignore
   cp -r ../debian .
   sed -i -e "s/@VERSION@/${blitz_version}/g" debian/rules
   sed -i -e "s/@VERSION@/${blitz_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog

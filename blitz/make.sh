@@ -19,26 +19,21 @@ then
   mv blitz-0.10.tar.gz blitz++_0.10-July3.orig.tar.gz
 fi
 tar -xvzf blitz++_0.10-July3.orig.tar.gz
-echo "Cloning done."
-rm -r blitz.clone
+if [ -d blitz.clone]; then rm -r blitz.clone; fi
 mv blitz-0.10 blitz.clone
-#hg_version=1902
+
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-echo "Today                   : ${date}"
 blitz_version="${base_blitz_version}"
+source /etc/lsb-release
+echo "Today          : ${date}"
 echo "Blitz++ version: ${blitz_version}"
+echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
 
 for distro in raring quantal precise lucid; do
   ppa_version="3:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
   echo "Generating source packages for Ubuntu '${distro}'..."
   cp -r blitz.clone blitz++_${blitz_version}.orig
-  #cd blitz++_${blitz_version}.orig
-  #rm -rf .hg .hgtags .cvsignore
-  #if [ ! -e ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz ]; then
-  #  tar -cvzf ../blitz++_${base_blitz_version}${hg_version}.orig.tar.gz *
-  #fi
-  #cd ..
   cp -r blitz++_${blitz_version}.orig blitz++_${blitz_version}
   cd blitz++_${blitz_version}
   cp -r ../debian .
