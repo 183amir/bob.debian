@@ -8,7 +8,7 @@
 soversion="1.1"
 commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.3"
+version="${soversion}.4"
 package="bob_${version}"
 ppa_iteration="1"
 distros=`lsb_release -c -s`
@@ -37,6 +37,10 @@ for distro in ${distros}; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
+  if [ -e ../os.files/control.${distro} ]; then
+    echo "Overriding with special control for '${distro}'..."
+    cp -L -f ../os.files/control.${distro} debian/control
+  fi
   if [ -e ../os.files/rules.${distro} ]; then
     echo "Overriding with special rules for '${distro}'..."
     cp -L -f ../os.files/rules.${distro} debian/rules
