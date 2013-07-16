@@ -2,7 +2,7 @@ Source: bob
 Section: science
 Priority: optional
 Maintainer: Biometrics Group <biometric@idiap.ch>
-Build-Depends: debhelper (>= 7.0.50), quilt, cmake, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, ffmpeg, libavcodec-dev, libswscale-dev, libboost1.50-all-dev | libboost-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libopencv-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, python-sphinx, python-nose, dvipng, python-imaging
+Build-Depends: debhelper (>= 7.0.50), quilt, cmake, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, ffmpeg, libavcodec-dev, libswscale-dev, libboost1.50-all-dev | libboost-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, python-sphinx, python-nose, dvipng, python-imaging
 Standards-Version: 3.9.3
 #Build-Recommends: libgoogle-perftools-dev
 Homepage: http://idiap.github.com/bob
@@ -21,7 +21,7 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
 
 Package: bob-doc
 Section: doc
-Depends: ${misc:Depends} 
+Depends: ${misc:Depends}
 Architecture: all
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
@@ -32,7 +32,7 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
 
 Package: bob-dev
 Architecture: all
-Depends: ${misc:Depends}, bob, cmake, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, ffmpeg, libavcodec-dev, libswscale-dev, libboost1.50-all-dev | libboost-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libopencv-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, python-sphinx, python-nose, dvipng, python-imaging
+Depends: ${misc:Depends}, bob, cmake, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, ffmpeg, libavcodec-dev, libswscale-dev, libboost1.50-all-dev | libboost-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, python-sphinx, python-nose, dvipng, python-imaging
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
  Research Institute, in Switzerland. The toolbox is written in a mix of Python
