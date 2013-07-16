@@ -6,7 +6,7 @@
 
 # Configure here your parameters for the package you are building
 soversion="1.2"
-version="${soversion}.0"
+version="${soversion}.0rc1"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"; # Andre
