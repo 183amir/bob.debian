@@ -8,11 +8,11 @@
 soversion="1.2"
 version="${soversion}.0rc1"
 package="bob_${version}"
-ppa_iteration="1"
+ppa_iteration="2"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=0; #if you set this to 1, all changes will ship with srcs
-source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 #distros="raring quantal";
 distros="raring quantal precise lucid";
 
