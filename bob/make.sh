@@ -5,15 +5,15 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.2"
-version="${soversion}.0"
+soversion="1.1"
+version="${soversion}.4"
 package="bob_${version}"
-ppa_iteration="1"
+ppa_iteration="3"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
-#source_shipped=0; #if you set this to 1, all changes will ship with srcs
-source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
-#distros="raring quantal";
+source_shipped=0; #if you set this to 1, all changes will ship with srcs
+#source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
+distros="raring";
 distros="raring quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
