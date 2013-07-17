@@ -5,13 +5,13 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.1"
-commit="1e7c846c08"
+soversion="1.2"
+#commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.4"
+version="${soversion}.0rc1"
 package="bob_${version}"
 ppa_iteration="1"
-distros=`lsb_release -c -s`
+distro=`lsb_release -c -s`
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
@@ -27,31 +27,29 @@ date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 echo "Today                   : ${date}"
 echo "Bob version             : ${version}"
 
-for distro in ${distros}; do
-  ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
-  echo "Biometrics PPA version  : ${ppa_version}"
+ppa_version="${version}-0~ppa${ppa_iteration}~${distro}1"
+echo "Biometrics PPA version  : ${ppa_version}"
 
-  echo "Generating binary packages for Ubuntu '${distro}'..."
-  [ ! -e ${package}.orig ] && tar xfz ${package}.orig.tar.gz;
-  [ -e ${package} ] && rm -rf ${package};
-  cp -a ${package}.orig ${package};
-  cd ${package}
-  cp -r ../debian .
-  if [ -e ../os.files/control.${distro} ]; then
-    echo "Overriding with special control for '${distro}'..."
-    cp -L -f ../os.files/control.${distro} debian/control
-  fi
-  if [ -e ../os.files/rules.${distro} ]; then
-    echo "Overriding with special rules for '${distro}'..."
-    cp -L -f ../os.files/rules.${distro} debian/rules
-  fi
-  if [ -d ../os.files/patches.${distro} ]; then
-    echo "Overriding with special patches for '${distro}'..."
-    rm -rf debian/patches
-    cp -L -f -r ../os.files/patches.${distro} debian/patches
-  fi
-  sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
-  sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -us -uc -b;
-  cd ..
-done
+echo "Generating binary packages for Ubuntu '${distro}'..."
+[ ! -e ${package}.orig ] && tar xfz ${package}.orig.tar.gz;
+[ -e ${package} ] && rm -rf ${package};
+cp -a ${package}.orig ${package};
+cd ${package}
+cp -r ../debian .
+if [ -e ../os.files/control.${distro} ]; then
+  echo "Overriding with special control for '${distro}'..."
+  cp -L -f ../os.files/control.${distro} debian/control
+fi
+if [ -e ../os.files/rules.${distro} ]; then
+  echo "Overriding with special rules for '${distro}'..."
+  cp -L -f ../os.files/rules.${distro} debian/rules
+fi
+if [ -d ../os.files/patches.${distro} ]; then
+  echo "Overriding with special patches for '${distro}'..."
+  rm -rf debian/patches
+  cp -L -f -r ../os.files/patches.${distro} debian/patches
+fi
+sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
+sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
+debuild -us -uc -b;
+cd ..

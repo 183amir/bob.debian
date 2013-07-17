@@ -13,7 +13,7 @@ export DH_OPTIONS
 	dh $@ --parallel --with python_support
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_SOVERSION=@SOVERSION@
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_VERSION=@VERSION@ -DBOB_SOVERSION=@SOVERSION@ -DSET_PUBLIC_LIBRARY_PATH=OFF
 
 override_dh_auto_build:
 	dh_quilt_patch
