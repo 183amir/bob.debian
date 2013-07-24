@@ -11,6 +11,9 @@ ppa_iteration="1"
 #gpg_key="E0CE7EF8" #LES
 gpg_key="A2170D5D" #AA
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+distro=`lsb_release -c -s`
+distro_id=`lsb_release -i -s`
+distro_release=`lsb_release -r -s`
 
 # 1) Clone the mercurial repository
 if [ ! -e blitz++_0.10-July3.orig.tar.gz ]
@@ -24,10 +27,9 @@ mv blitz-0.10 blitz.clone
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
 blitz_version="${base_blitz_version}"
-source /etc/lsb-release
 echo "Today          : ${date}"
 echo "Blitz++ version: ${blitz_version}"
-echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
+echo "Distribution   : ${distro_id} ${distro_release} (${distro})"
 
 for distro in raring quantal precise lucid; do
   ppa_version="3:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
