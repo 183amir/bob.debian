@@ -12,6 +12,9 @@ gpg_key="A2170D5D" #AA
 source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
 subdir=vlfeat-${vlfeat_version}
 filename=${subdir}.tar.gz
+distro=`lsb_release -c -s`
+distro_id=`lsb_release -i -s`
+distro_release=`lsb_release -r -s`
 
 # 1) Get the latest release source code
 if [ ! -e ${filename} ]; then
@@ -31,10 +34,9 @@ if [ -d vlfeat.clone ]; then rm vlfeat.clone; fi
 mv vlfeat-${vlfeat_version} vlfeat.clone
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-source /etc/lsb-release
 echo "Today          : ${date}"
 echo "VLFeat version : ${vlfeat_version}"
-echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
+echo "Distribution   : ${distro_id} ${distro_release} (${distro})"
 
 for distro in raring quantal precise lucid; do
   ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"

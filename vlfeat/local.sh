@@ -12,6 +12,9 @@ ppa_iteration="1"
 gpg_key="A2170D5D" #AA
 subdir=vlfeat-${vlfeat_version}
 filename=${subdir}.tar.gz
+distro=`lsb_release -c -s`
+distro_id=`lsb_release -i -s`
+distro_release=`lsb_release -r -s`
 
 # 1) Get the latest release source code
 if [ ! -e ${filename} ]; then
@@ -31,22 +34,18 @@ if [ -d vlfeat.clone ]; then rm vlfeat.clone; fi
 mv vlfeat-${vlfeat_version} vlfeat.clone
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-source /etc/lsb-release
 echo "Today          : ${date}"
 echo "VLFeat version : ${vlfeat_version}"
-echo "Distribution   : ${DISTRIB_ID} ${DISTRIB_RELEASE} (${DISTRIB_CODENAME})"
+echo "Distribution   : ${distro_id} ${distro_release} (${distro})"
 
-for distro in ${DISTRIB_CODENAME}; do
-  rm -rf vlfeat.local *.build
-  ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"
-  echo "Biometrics PPA version  : ${ppa_version}"
+rm -rf vlfeat.local *.build
+ppa_version="${vlfeat_version}-0~ppa${ppa_iteration}~${distro}1"
+echo "Biometrics PPA version  : ${ppa_version}"
 
-  echo "Generating source packages for Ubuntu '${distro}'..."
-  cp -r vlfeat.clone vlfeat.local
-  cd vlfeat.local
-  cp -r ../debian .
-  sed -i -e "s/@VERSION@/${vlfeat_version}/g" debian/rules
-  sed -i -e "s/@VERSION@/${vlfeat_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  debuild -us -uc -b
-  cd ..
-done
+echo "Generating source packages for Ubuntu '${distro}'..."
+cp -r vlfeat.clone vlfeat.local
+cd vlfeat.local
+cp -r ../debian .
+sed -i -e "s/@VERSION@/${vlfeat_version}/g" debian/rules
+sed -i -e "s/@VERSION@/${vlfeat_version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
+debuild -us -uc -b
