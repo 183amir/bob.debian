@@ -10,3 +10,7 @@ debian/stamp-*
 obj-*
 debian/*.log
 debian/*.substvars
+*.deb
+*.build
+*.changes
+*.tar.gz
