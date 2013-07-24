@@ -5,13 +5,15 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.2"
+soversion="1.1"
 #commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.0rc1"
+version="${soversion}.4"
 package="bob_${version}"
 ppa_iteration="1"
 distro=`lsb_release -c -s`
+distro_id=`lsb_release -i -s`
+distro_release=`lsb_release -r -s`
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
