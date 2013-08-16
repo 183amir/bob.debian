@@ -8,7 +8,7 @@
 soversion="1.2"
 version="${soversion}.0"
 package="bob_${version}"
-ppa_iteration="2"
+ppa_iteration="3"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 source_shipped=0; #if you set this to 1, all changes will ship with srcs
