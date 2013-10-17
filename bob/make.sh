@@ -11,10 +11,10 @@ package="bob_${version}"
 ppa_iteration="2"
 #gpg_key="A2170D5D"; # Andre
 gpg_key="E0CE7EF8"; # Laurentes
-#source_shipped=0; #if you set this to 1, all changes will ship with srcs
+#source_shipped=1; #if you set this to 1, all changes will ship with srcs
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
-#distros="raring";
-distros="raring quantal";
+#distros="saucy";
+distros="saucy raring quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
