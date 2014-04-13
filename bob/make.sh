@@ -5,8 +5,8 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.2"
-version="${soversion}.2"
+soversion="2.0"
+version="${soversion}.0a0"
 package="bob_${version}"
 ppa_iteration="1"
 gpg_key="A2170D5D"; # Andre
@@ -14,7 +14,7 @@ gpg_key="A2170D5D"; # Andre
 source_shipped=1; #if you set this to 1, all changes will ship with srcs
 #source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 #distros="saucy";
-distros="saucy raring quantal precise lucid";
+distros="trusty saucy quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
