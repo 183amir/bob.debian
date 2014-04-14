@@ -5,10 +5,10 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="1.2"
+soversion="2.0"
 #commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.2"
+version="${soversion}.0a0"
 package="bob_${version}"
 ppa_iteration="1"
 distro=`lsb_release -c -s`

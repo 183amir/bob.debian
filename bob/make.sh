@@ -8,13 +8,13 @@
 soversion="2.0"
 version="${soversion}.0a0"
 package="bob_${version}"
-ppa_iteration="1"
+ppa_iteration="2"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
-source_shipped=1; #if you set this to 1, all changes will ship with srcs
-#source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
-#distros="saucy";
-distros="trusty saucy quantal precise lucid";
+#source_shipped=1; #if you set this to 1, all changes will ship with srcs
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+distros="trusty";
+#distros="trusty saucy quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
