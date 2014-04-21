@@ -1,13 +1,34 @@
-Index: vlfeat-0.9.14/make/dll.mak
+Index: vlfeat-0.9.18/make/dll.mak
 ===================================================================
---- vlfeat-0.9.14.orig/make/dll.mak	2011-12-24 17:05:35.000000000 +0100
-+++ vlfeat-0.9.14/make/dll.mak	2012-04-10 13:07:29.265610185 +0200
-@@ -21,7 +21,7 @@
+--- vlfeat-0.9.18.orig/make/dll.mak	2014-01-31 01:16:22.000000000 +0100
++++ vlfeat-0.9.18/make/dll.mak	2014-04-21 15:06:31.501886704 +0200
+@@ -24,6 +24,7 @@
+ # build the DLL.
+ 
  DLL_NAME = vl
++API_VERSION = 0
  
- DLL_CFLAGS  = $(STD_CFLAGS)
--DLL_CFLAGS += -fvisibility=hidden -fPIC -DVL_BUILD_DLL -pthread
-+DLL_CFLAGS += -fvisibility=hidden -fPIC -DVL_BUILD_DLL -pthread -Wl,-soname,libvl.so.0
- DLL_CFLAGS += $(call if-like,%_sse2,$*,-msse2)
+ LINK_DLL_CFLAGS = \
+ $(if $(DISABLE_THREADS),-DVL_DISABLE_THREADS) \
+@@ -85,7 +86,7 @@
+ # library for any binary which is linked against it. The install_name
+ # can be modified later by install_name_tool.
  
- DLL_LDFLAGS += -lm
+-dll_tgt := $(BINDIR)/lib$(DLL_NAME).$(DLL_SUFFIX)
++dll_tgt := $(BINDIR)/lib$(DLL_NAME).$(DLL_SUFFIX)
+ dll_src := $(wildcard $(VLDIR)/vl/*.c)
+ dll_hdr := $(wildcard $(VLDIR)/vl/*.h)
+ dll_obj := $(addprefix $(BINDIR)/objs/, $(notdir $(dll_src:.c=.o)))
+@@ -132,10 +133,11 @@
+ 	  $(^)							\
+ 	  -o "$(@)"
+ 
+-$(BINDIR)/lib$(DLL_NAME).so : $(dll_obj)
++$(BINDIR)/lib$(DLL_NAME).so : $(dll_obj)
+ 	$(call C,CC) -shared                                    \
+ 	    $(^)                                                \
+ 	    $(DLL_LDFLAGS)	                                \
++      -Wl,-soname,lib$(DLL_NAME).so.$(API_VERSION)    \
+ 	    -o "$(@)"
+ 
+ dll-clean:
