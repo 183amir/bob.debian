@@ -42,6 +42,7 @@ for distro in ${distros}; do
       echo "Overriding with specific '${specific}' for '${distro}'..."
       set CPOPT=-L -f
       [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
+      rm -rf debian/${specific}
       cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
     fi
   done

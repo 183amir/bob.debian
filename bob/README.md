@@ -4,7 +4,7 @@ Bob Package Construction
 Install the `devscripts` package:
 
 ```sh
-$ sudo apt-get install devscripts debhelper
+$ sudo apt-get install devscripts debhelper quilt
 ```
 
 Edit the `make.sh` file to set the build properties and then, run it:
