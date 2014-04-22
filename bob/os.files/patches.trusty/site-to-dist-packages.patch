@@ -1,0 +1,109 @@
+diff -ur a/python/bin/fix_scripts.py b/python/bin/fix_scripts.py
+--- a/python/bin/fix_scripts.py	2013-05-31 17:26:59.000000000 +0200
++++ b/python/bin/fix_scripts.py	2013-07-19 16:27:51.697042000 +0200
+@@ -11,7 +11,7 @@
+ It assumes it will enter a single line in every script like 'bob_*.py', just
+ after 'import sys' which reads: 
+ 
+-  sys.path.insert(0, '<path to local site-packages>')
++  sys.path.insert(0, '<path to local dist-packages>')
+ """
+ 
+ import os
+@@ -31,7 +31,7 @@
+     os.path.dirname(sys.argv[1]),
+     'lib', 
+     'python%d.%d' % sys.version_info[:2],
+-    'site-packages',
++    'dist-packages',
+     ))
+   out = []
+   for l in open(path, 'rt'):
+diff -ur a/python/CMakeLists.txt b/python/CMakeLists.txt
+--- a/python/CMakeLists.txt	2013-05-31 17:26:59.000000000 +0200
++++ b/python/CMakeLists.txt	2013-07-19 18:19:07.069213000 +0200
+@@ -18,7 +18,7 @@
+ 
+   # configures and installs the build directory version of the script
+   set(ABSOLUTE_build_dir ${CMAKE_BINARY_DIR})
+-  set(BOB_PYTHONPATH ${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES})
++  set(BOB_PYTHONPATH ${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES})
+   configure_file(${file_input} ${ABSOLUTE_build_dir}/${script_name} @ONLY)
+ 
+   # gets the absolute installation prefix
+@@ -30,7 +30,7 @@
+ 
+   # configures and installs the installation directory version of the script
+   set(ABSOLUTE_install_dir ${ABSOLUTE_INSTALL_PREFIX}/${install_dir})
+-  set(BOB_PYTHONPATH ${ABSOLUTE_INSTALL_PREFIX}/${PYTHON_SITE_PACKAGES})
++  set(BOB_PYTHONPATH ${ABSOLUTE_INSTALL_PREFIX}/${PYTHON_DIST_PACKAGES})
+   configure_file(${file_input} ${CMAKE_BINARY_DIR}/to_install/${install_name} @ONLY)
+   install(PROGRAMS ${CMAKE_BINARY_DIR}/to_install/${install_name} DESTINATION ${install_dir} RENAME ${install_name})
+ 
+@@ -44,7 +44,7 @@
+   endif()
+ else()
+   # just configure it locally for build-time usage
+-  set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES}")
++  set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES}")
+   configure_file(bin/python.in ${CMAKE_BINARY_DIR}/bin/python @ONLY)
+   if(IPYTHON_EXECUTABLE)
+     configure_file(bin/ipython.in ${CMAKE_BINARY_DIR}/bin/ipython @ONLY)
+@@ -58,22 +58,22 @@
+   set(ABSOLUTE_install_prefix "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}")
+ endif()
+ 
+-set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES}")
++set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES}")
+ set(BOB_PKG_CONFIG_PATH "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+ configure_file(bin/egg-build.in ${CMAKE_BINARY_DIR}/bin/egg-build @ONLY)
+ 
+ set(BOB_PKG_CONFIG_PATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+-set(BOB_PYTHONPATH "${ABSOLUTE_install_prefix}/${PYTHON_SITE_PACKAGES}")
++set(BOB_PYTHONPATH "${ABSOLUTE_install_prefix}/${PYTHON_DIST_PACKAGES}")
+ configure_file(bin/egg-install.in ${CMAKE_BINARY_DIR}/bin/egg-install @ONLY)
+ 
+ # An easy handler to debug python stuff
+-set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES}")
++set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES}")
+ configure_file(bin/gdbpy.in ${CMAKE_BINARY_DIR}/bin/gdbpy @ONLY)
+ 
+ set(pybin "${CMAKE_BINARY_DIR}/bin/egg-build")
+ set(pysetup "${CMAKE_SOURCE_DIR}/python/setup.py")
+ get_filename_component(basedir ${pysetup} PATH)
+-add_custom_target(egg ALL mkdir -pv ${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES} COMMAND ${pybin} ${pysetup} build --force --build-base=${CMAKE_BINARY_DIR}/egg-build install --force --prefix=${CMAKE_BINARY_DIR} --record=${CMAKE_BINARY_DIR}/egg-build-record.txt --single-version-externally-managed WORKING_DIRECTORY ${basedir} DEPENDS ${ENABLED_PACKAGES})
++add_custom_target(egg ALL mkdir -pv ${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES} COMMAND ${pybin} ${pysetup} build --force --build-base=${CMAKE_BINARY_DIR}/egg-build install --force --prefix=${CMAKE_BINARY_DIR} --record=${CMAKE_BINARY_DIR}/egg-build-record.txt --single-version-externally-managed COMMAND rm -rf ${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES} COMMAND mv -f ${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES} ${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES} WORKING_DIRECTORY ${basedir} DEPENDS ${ENABLED_PACKAGES})
+ add_custom_target(egg-scripts ALL ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/bin/fix_scripts.py ${CMAKE_BINARY_DIR}/bin)
+ add_dependencies(egg-scripts egg)
+ 
+@@ -83,7 +83,7 @@
+   HINTS $ENV{SPHINX_DIR} PATH_SUFFIXES bin
+   DOC "Nose python test scanner and runner"
+   )
+-set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_SITE_PACKAGES}")
++set(BOB_PYTHONPATH "${CMAKE_BINARY_DIR}/${PYTHON_DIST_PACKAGES}")
+ configure_file(bin/nosetests.in ${CMAKE_BINARY_DIR}/bin/nosetests @ONLY)
+ add_custom_target(nosetests ${CMAKE_BINARY_DIR}/bin/nosetests -v bob)
+ add_dependencies(nosetests egg-scripts)
+diff -ur a/python/post_install/CMakeLists.txt b/python/post_install/CMakeLists.txt
+--- a/python/post_install/CMakeLists.txt	2013-07-19 18:10:56.006906000 +0200
++++ b/python/post_install/CMakeLists.txt	2013-07-19 18:16:59.298354000 +0200
+@@ -12,4 +12,6 @@
+ get_filename_component(basedir ${pysetup} PATH)
+ install(CODE "execute_process(COMMAND mkdir -pv \$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${PYTHON_SITE_PACKAGES} WORKING_DIRECTORY ${basedir})")
+ install(CODE "execute_process(COMMAND ${pybin} ${pysetup} build --force --build-base=${CMAKE_BINARY_DIR}/egg-install install --force --prefix=\$ENV{DESTDIR}${ABSOLUTE_install_prefix} --record=${CMAKE_BINARY_DIR}/egg-install-record.txt --single-version-externally-managed WORKING_DIRECTORY ${basedir})")
++install(CODE "execute_process(COMMAND rm -rf \$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${PYTHON_DIST_PACKAGES} WORKING_DIRECTORY ${basedir})")
++install(CODE "execute_process(COMMAND mv -f \$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${PYTHON_SITE_PACKAGES} \$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${PYTHON_DIST_PACKAGES} WORKING_DIRECTORY ${basedir})")
+ install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/bin/fix_scripts.py $ENV{DESTDIR}${ABSOLUTE_install_prefix}/bin \$ENV{DESTDIR})")
+diff -ur a/src/python.cmake b/src/python.cmake
+--- a/src/python.cmake	2013-07-19 18:14:17.545271000 +0200
++++ b/src/python.cmake	2013-07-19 18:14:45.146453000 +0200
+@@ -85,6 +85,8 @@
+ # standardized by Python as defined in http://docs.python.org/install/index.html
+ set(PYTHON_SITE_PACKAGES "${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/site-packages" CACHE
+   PATH "Default package installation prefix for Python packages")
++set(PYTHON_DIST_PACKAGES "${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION}/dist-packages" CACHE
++  PATH "Default package installation prefix for Python packages")
+ 
+ # And we also try to find ipython, if it is installed
+ find_program(IPYTHON_EXECUTABLE ${WITH_IPYTHON} ipython DOC "Default ipython interpreter")
