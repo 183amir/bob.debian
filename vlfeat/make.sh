@@ -6,10 +6,10 @@
 
 # Configure here your parameters for the package you are building
 vlfeat_version="0.9.18"
-ppa_iteration="1"
-gpg_key="E0CE7EF8" #LES
-#gpg_key="A2170D5D" #AA
-source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
+ppa_iteration="2"
+#gpg_key="E0CE7EF8" #LES
+gpg_key="A2170D5D" #AA
+source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
 subdir=vlfeat-${vlfeat_version}
 filename=${subdir}.tar.gz
 distro=`lsb_release -c -s`

@@ -1,1 +1,2 @@
+#!/usr/bin/dh-exec
 vl/*.h usr/include/vl

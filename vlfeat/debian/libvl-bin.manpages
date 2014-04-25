@@ -1,3 +1,4 @@
+#!/usr/bin/dh-exec
 src/mser.1
 src/sift.1
 src/vlfeat.7

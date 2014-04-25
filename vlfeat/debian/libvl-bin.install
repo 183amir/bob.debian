@@ -1,2 +1,3 @@
+#!/usr/bin/dh-exec
 bin/*/mser usr/bin
 bin/*/sift usr/bin
