@@ -22,7 +22,7 @@ then
   mv blitz-0.10.tar.gz blitz++_0.10-July3.orig.tar.gz
 fi
 tar -xvzf blitz++_0.10-July3.orig.tar.gz
-if [ -d blitz.clone]; then rm -r blitz.clone; fi
+if [ -d blitz.clone ]; then rm -r blitz.clone; fi
 mv blitz-0.10 blitz.clone
 
 date=`date +"%a, %d %b %Y %H:%M:%S %z"`
