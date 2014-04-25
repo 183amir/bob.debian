@@ -6,7 +6,7 @@ pkgname=$(libname)1ldbl
 docname=$(libname)-doc
 archsize=$(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
 
-cfg_cmd_base=./configure --prefix=${PREFIX} --enable-optimize --enable-static --enable-shared --enable-threadsafe CFLAGS="-pthread -g -O2 -DBZHAVE_STD" CXXFLAGS="-pthread -g -O2 -DBZ_HAVE_STD" CPPFLAGS="-pthread"
+cfg_cmd_base=./configure --prefix=${PREFIX} --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) --enable-optimize --enable-static --enable-shared --enable-threadsafe CFLAGS="-pthread -g -O2 -DBZHAVE_STD" CXXFLAGS="-pthread -g -O2 -DBZ_HAVE_STD" CPPFLAGS="-pthread"
 ifeq ($(archsize),32)
 	cfg_cmd=$(cfg_cmd_base) --enable-simd-width=8
 else
@@ -14,6 +14,8 @@ else
 endif
 
 PREFIX = /usr
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 %:
 	dh $@
@@ -32,9 +34,6 @@ override_dh_compress:
 
 override_dh_install:
 	dh_install
-	d-shlibmove --ldbl --commit \
-	   --movedev "debian/tmp/usr/lib/pkgconfig/*" usr/lib/pkgconfig \
-	   lib/.libs/libblitz.so
 
 	#######    --movedev "debian/tmp/usr/lib/*.la" usr/lib \
 	# Make sure there will be no *.la file created automagically by d-shlibmove

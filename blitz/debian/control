@@ -4,7 +4,7 @@ Section: libs
 Maintainer: Idiap Biometrics Group <biometric@idiap.ch>
 Build-Depends: gfortran | fortran-compiler, autotools-dev, autoconf,
  libblas-dev | libatlas-base-dev, liblapack-dev | libatlas-base-dev,
- debhelper (>= 7.0.50~), d-shlibs, quilt, automake, libtool
+ debhelper (>= 8.1.3), d-shlibs, quilt, automake, libtool
 Standards-Version: 3.9.3
 Homepage: http://oonumerics.org/blitz/
 Vcs-Browser: http://sourceforge.net/projects/blitz/
@@ -13,6 +13,7 @@ Package: libblitz1ldbl
 Architecture: any
 Priority: extra
 Section: libs
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libblitz1, libblitz0
 Replaces: libblitz0
@@ -28,7 +29,9 @@ Package: libblitz1-dev
 Architecture: any
 Priority: extra
 Section: libdevel
+Pre-Depends: ${misc:Pre-Depends}
 Depends: libblitz1ldbl (= ${binary:Version}), ${misc:Depends}
+Multi-Arch: same
 Provides: libblitz-dev, libblitz1-dev, blitz++
 Conflicts: libblitz-dev, libblitz0-dev, libblitz1-dev
 Description: C++ template class library for scientific computing

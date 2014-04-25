@@ -1,3 +1,8 @@
-usr/lib
+#!/usr/bin/dh-exec
+usr/lib/${DEB_HOST_MULTIARCH}
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig
 usr/include/blitz
+usr/include/blitz/gnu
+usr/include/blitz/array
+usr/include/blitz/meta
 usr/include/random

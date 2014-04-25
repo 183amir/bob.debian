@@ -1,7 +1,9 @@
-lib/.libs/libblitz.a		usr/lib
-blitz/*.{h,cc}			usr/include/blitz
-blitz/gnu/*.{h,cc}              usr/include/blitz/gnu
-blitz/array/*.{h,cc}		usr/include/blitz/array
-blitz/meta/*.{h,cc}		usr/include/blitz/meta
-blitz/generate/*.{h,cc}		usr/include/blitz/generate
-random/*.h			usr/include/random
+#!/usr/bin/dh-exec
+usr/lib/${DEB_HOST_MULTIARCH}/*.so
+usr/lib/${DEB_HOST_MULTIARCH}/*.a
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/blitz.pc
+usr/include/blitz/*.{h,cc}
+usr/include/blitz/gnu/*.{h,cc}
+usr/include/blitz/array/*.{h,cc}
+usr/include/blitz/meta/*.{h,cc}
+usr/include/random/*.{h,cc}
