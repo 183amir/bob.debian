@@ -1,7 +1,6 @@
-#!/usr/bin/dh-exec
-usr/lib/${DEB_HOST_MULTIARCH}/*.so
-usr/lib/${DEB_HOST_MULTIARCH}/*.a
-usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/blitz.pc
+usr/lib/*/*.so
+usr/lib/*/*.a
+usr/lib/*/pkgconfig/blitz.pc
 usr/include/blitz/*.{h,cc}
 usr/include/blitz/gnu/*.{h,cc}
 usr/include/blitz/array/*.{h,cc}

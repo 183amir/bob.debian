@@ -7,7 +7,7 @@
 
 # Configure here your parameters for the package you are building
 base_blitz_version="0.10-July3"
-ppa_iteration="1"
+ppa_iteration="3"
 #gpg_key="E0CE7EF8" #LES
 gpg_key="A2170D5D" #AA
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
@@ -31,7 +31,7 @@ echo "Today          : ${date}"
 echo "Blitz++ version: ${blitz_version}"
 echo "Distribution   : ${distro_id} ${distro_release} (${distro})"
 
-for distro in trusty raring quantal precise lucid; do
+for distro in trusty; do
   ppa_version="3:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
   echo "Generating source packages for Ubuntu '${distro}'..."
