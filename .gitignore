@@ -14,3 +14,5 @@ debian/*.substvars
 *.build
 *.changes
 *.tar.gz
+*.dsc
+*.upload
