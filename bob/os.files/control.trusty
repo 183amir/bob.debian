@@ -2,40 +2,45 @@ Source: bob
 Section: science
 Priority: optional
 Maintainer: Biometrics Group <biometric@idiap.ch>
-Build-Depends: debhelper (>= 7.0.50), quilt, cmake, pkg-config, liblapack-dev, libatlas-base-dev, libblitz1-dev, libav-tools, libavcodec-dev, libswscale-dev, libboost1.54-all-dev | libboost-all-dev | libboost1.49-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libvl-dev, doxygen
+Build-Depends: debhelper (>= 8.1.3), quilt, cmake, python, pkg-config, liblapack-dev, libatlas-base-dev, libblitz1-dev, libboost-all-dev, libav-tools, libavformat-dev, libavcodec-dev, libswscale-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libfftw3-dev, libvl-dev, doxygen, graphviz
 Standards-Version: 3.9.4
-#Build-Recommends: libgoogle-perftools-dev
 Homepage: http://idiap.github.com/bob
-#Vcs-Git: git://git.debian.org/collab-maint/bob.git
 Vcs-Browser: https://github.com/idiap/bob
 
 Package: bob
 Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Multi-Arch: same
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: hdf5-tools, h5utils
 Suggests: libhdf5-doc
-Description: Toolbox for Biometrics, Machine Learning and Signal Processing
- Bob is a signal-processing and machine learning toolbox developed at the Idiap
- Research Institute, in Switzerland. The toolbox is written in a mix of Python
- and C++ and is designed to be both efficient and to reduce development time.
+Description: Python/C++ Framework for Machine Learning and Signal Processing
+ Bob is a signal-processing and machine learning framework developed at the
+ Idiap Research Institute, Switzerland. The framework is written in a mix of
+ Python and C++ and is designed to be both efficient and to reduce development
+ time.
+ .
+ This package provides the C++ runtime libraries.
 
 Package: bob-doc
 Section: doc
 Depends: ${misc:Depends}
 Architecture: all
-Description: Toolbox for Biometrics, Machine Learning and Signal Processing
- Bob is a signal-processing and machine learning toolbox developed at the Idiap
- Research Institute, in Switzerland. The toolbox is written in a mix of Python
- and C++ and is designed to be both efficient and to reduce development time.
+Description: Python/C++ Framework for Machine Learning and Signal Processing
+ Bob is a signal-processing and machine learning framework developed at the
+ Idiap Research Institute, Switzerland. The framework is written in a mix of
+ Python and C++ and is designed to be both efficient and to reduce development
+ time.
  .
- These are documentation files for bob.
+ This package provides the C++ library documentation (doxygen).
 
 Package: bob-dev
 Architecture: all
-Depends: ${misc:Depends}, bob, cmake, liblapack-dev, libatlas-base-dev, libblitz1-dev, libav-tools, libavcodec-dev, libswscale-dev, libboost1.54-all-dev | libboost-all-dev | libboost1.49-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libvl-dev, doxygen
-Description: Toolbox for Biometrics, Machine Learning and Signal Processing
- Bob is a signal-processing and machine learning toolbox developed at the Idiap
- Research Institute, in Switzerland. The toolbox is written in a mix of Python
- and C++ and is designed to be both efficient and to reduce development time.
+Depends: ${misc:Depends}, bob, liblapack-dev, libatlas-base-dev, libblitz1-dev, libboost-all-dev | libboost1.55-all-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libfftw3-dev, libvl-dev
+Description: Python/C++ Framework for Machine Learning and Signal Processing
+ Bob is a signal-processing and machine learning framework developed at the
+ Idiap Research Institute, Switzerland. The framework is written in a mix of
+ Python and C++ and is designed to be both efficient and to reduce development
+ time.
  .
- These are development files needed to compile code that depends on bob.
+ These are development files needed to compile code that depends on Bob/C++.

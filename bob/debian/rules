@@ -9,11 +9,13 @@
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
 %:
 	dh $@ --parallel
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_VERSION=2.0.0a0 -DBOB_SOVERSION=2.0 -DSET_PUBLIC_LIBRARY_PATH=OFF
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_VERSION=2.0.0a1 -DBOB_SOVERSION=2.0 -DSET_PUBLIC_LIBRARY_PATH=OFF
 
 override_dh_auto_build:
 	dh_auto_build -- VERBOSE=$(DH_VERBOSE) all

@@ -6,15 +6,15 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.0a0"
+version="${soversion}.0a1"
 package="bob_${version}"
-ppa_iteration="5"
+ppa_iteration="2"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
-#source_shipped=1; #if you set this to 1, all changes will ship with srcs
-source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
-distros="trusty";
-#distros="trusty saucy quantal precise lucid";
+source_shipped=1; #if you set this to 1, all changes will ship with srcs
+#source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+#distros="trusty";
+distros="trusty saucy quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
@@ -37,7 +37,7 @@ for distro in ${distros}; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
-  for specific in control rules patches bob.install bob-dev.install; do
+  for specific in control compat rules patches bob.install bob-dev.install; do
     if [ -e ../os.files/${specific}.${distro} ]; then
       echo "Overriding with specific '${specific}' for '${distro}'..."
       set CPOPT=-L -f

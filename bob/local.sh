@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # Andre Anjos <andre.anjos@idiap.ch>
 # Sun Apr  1 23:05:41 CEST 2012
 
@@ -8,7 +8,7 @@
 soversion="2.0"
 #commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.0a0"
+version="${soversion}.0a1"
 package="bob_${version}"
 ppa_iteration="1"
 distro=`lsb_release -c -s`
@@ -38,19 +38,14 @@ echo "Generating binary packages for Ubuntu '${distro}'..."
 cp -a ${package}.orig ${package};
 cd ${package}
 cp -r ../debian .
-if [ -e ../os.files/control.${distro} ]; then
-  echo "Overriding with special control for '${distro}'..."
-  cp -L -f ../os.files/control.${distro} debian/control
-fi
-if [ -e ../os.files/rules.${distro} ]; then
-  echo "Overriding with special rules for '${distro}'..."
-  cp -L -f ../os.files/rules.${distro} debian/rules
-fi
-if [ -d ../os.files/patches.${distro} ]; then
-  echo "Overriding with special patches for '${distro}'..."
-  rm -rf debian/patches
-  cp -L -f -r ../os.files/patches.${distro} debian/patches
-fi
+for specific in control rules patches bob.install bob-dev.install; do
+  if [ -e ../os.files/${specific}.${distro} ]; then
+    echo "Overriding with specific '${specific}' for '${distro}'..."
+    set CPOPT=-L -f
+    [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
+    cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
+  fi
+done
 sed -i -e "s/@VERSION@/${version}/g;s/@SOVERSION@/${soversion}/g" debian/rules
 sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
 debuild -us -uc -b;
