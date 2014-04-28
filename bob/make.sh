@@ -8,12 +8,12 @@
 soversion="1.2"
 version="${soversion}.2"
 package="bob_${version}"
-ppa_iteration="4"
+ppa_iteration="6"
 gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
 source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
-distros="trusty";
+distros="lucid";
 #distros="trusty saucy raring quantal precise lucid";
 
 if [ ! -e ${package}.orig.tar.gz ]; then
@@ -37,7 +37,7 @@ for distro in ${distros}; do
   cp -a ${package}.orig ${package};
   cd ${package}
   cp -r ../debian .
-  for specific in control rules patches bob.install bob-dev.install; do
+  for specific in control compat rules patches bob.install bob-dev.install; do
     if [ -e ../os.files/${specific}.${distro} ]; then
       echo "Overriding with specific '${specific}' for '${distro}'..."
       set CPOPT=-L -f
