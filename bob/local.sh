@@ -8,7 +8,7 @@
 soversion="2.0"
 #commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
-version="${soversion}.0a1"
+version="${soversion}.0a2"
 package="bob_${version}"
 ppa_iteration="1"
 distro=`lsb_release -c -s`
