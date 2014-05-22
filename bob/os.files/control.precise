@@ -36,8 +36,7 @@ Description: Python/C++ Framework for Machine Learning and Signal Processing
 
 Package: bob-dev
 Architecture: all
-Depends: ${misc:Depends}, bob, liblapack-dev, libatlas-base-dev, libblitz1-dev,
-libboost-all-dev | libboost1.46-all-dev, libhdf5-serial-dev, libvl-dev
+Depends: ${misc:Depends}, bob, liblapack-dev, libatlas-base-dev, libblitz1-dev, libboost-all-dev | libboost1.46-all-dev, libhdf5-serial-dev, libvl-dev
 Description: Python/C++ Framework for Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning framework developed at the
  Idiap Research Institute, Switzerland. The framework is written in a mix of
