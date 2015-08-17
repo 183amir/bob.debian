@@ -1,11 +1,13 @@
-#!/bin/bash 
+#!/bin/bash
 # Andre Anjos <andre.anjos@idiap.ch>
 # Sun Apr  1 23:05:41 CEST 2012
+# Pavel Korshunov <pavel.korshunov@idiap.ch>
+# Sun Aug 16 22:42:40 CEST 2015
 
-# Creates a new debian package for Bob
+# Creates a new debian package for Bob 2.0 and higher
 
 # Configure here your parameters for the package you are building
-soversion="1.2"
+soversion="2.0"
 #commit="1e7c846c08"
 #version="${soversion}.0+g${commit}"
 version="${soversion}.2"
@@ -17,11 +19,10 @@ distro_release=`lsb_release -r -s`
 
 if [ ! -e ${package}.orig.tar.gz ]; then
   if [ ! -e bob-${version}.tar.gz ]; then
-    wget http://www.idiap.ch/software/bob/packages/bob-${version}.tar.gz;
+    wget https://github.com/bioidiap/bob/tarball/master
   fi
-  tar xfz bob-${version}.tar.gz;
-  rm -f bob-${version}.tar.gz;
-  mv bob-${version} ${package}.orig;
+  mkdir ${package}.orig && tar xpvf master -C ${package}.orig --strip-components 1
+  rm -f master;
   tar cfz ${package}.orig.tar.gz ${package}.orig;
 fi
 

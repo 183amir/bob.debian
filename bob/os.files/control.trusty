@@ -2,7 +2,7 @@ Source: bob
 Section: science
 Priority: optional
 Maintainer: Biometrics Group <biometric@idiap.ch>
-Build-Depends: debhelper (>= 8.1.3), quilt, cmake, pkg-config, python, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, libav-tools, libavcodec-dev, libswscale-dev, libboost-all-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, graphviz, python-sphinx, python-nose, dvipng, python-imaging, python-tornado
+Build-Depends: debhelper (>= 8.1.3), dh-virtualenv (>= 0.8), python, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, libav-tools, libavcodec-dev, libswscale-dev, libboost-all-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, graphviz, python-sphinx, python-nose, dvipng, python-imaging, python-tornado
 Standards-Version: 3.9.4
 Homepage: http://idiap.github.com/bob
 Vcs-Browser: https://github.com/idiap/bob
@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/idiap/bob
 Package: bob
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-setuptools, python-argparse, python-numpy, python-scipy, python-matplotlib, python-sqlalchemy, python-nose, python-imaging, python-tornado
+Depends: ${misc:Depends}, ${python:Depends}, python-setuptools, python-argparse, python-numpy, python-scipy, python-matplotlib, python-sqlalchemy, python-nose, python-imaging, python-tornado
 Recommends: ipython, hdf5-tools, h5utils
 Suggests: libhdf5-doc
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
@@ -21,8 +21,8 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
 Package: bob-doc
 Section: doc
 Depends: ${misc:Depends}
-Architecture: all
-Multi-Arch: same
+Architecture: any
+Multi-Arch: allowed
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
  Research Institute, in Switzerland. The toolbox is written in a mix of Python
@@ -31,9 +31,9 @@ Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  These are documentation files for bob.
 
 Package: bob-dev
-Architecture: all
-Multi-Arch: same
-Depends: ${misc:Depends}, bob, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, libboost-all-dev | libboost1.54-all-dev | libboost1.49-all-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libsvm-dev, libvl-dev, python-sphinx, python-nose, dvipng, python-imaging, python-tornado
+Architecture: any
+Multi-Arch: allowed
+Depends: ${misc:Pre-Depends}, python-dev, python-support, python-setuptools,python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev,libboost-all-dev | libboost1.54-all-dev | libboost1.49-all-dev, libavformat54-dev, libavcodec-dev, libswscale-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff5-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libsvm-dev, libvl-dev, python-sphinx, python-nose, dvipng, python-imaging
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
  Research Institute, in Switzerland. The toolbox is written in a mix of Python
