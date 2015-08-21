@@ -3,12 +3,27 @@
 #
 # Configures, builds and installs Bob on Debian systems.
 
+#export DH_VIRTUALENV_ARGUMENTS=--use-system-packages
+
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
+#export DH_VENV_DEBUG=1
+
 
 %:
+##	dh $@ --with python2
 			dh $@ --with python-virtualenv
 
-override_dh_virtualenv:
-	    dh_virtualenv --use-system-packages --verbose
-
+override_dh_bob:
+	dh_bob --use-system-packages --extra-pip-arg "--no-index" --extra-pip-arg "--find-links=."
+	echo "        --------  AFTER DH VIRTUALENV   ========"
+#override_dh_auto_configure:
+override_dh_auto_build:
+	echo "        --------  STARTING DH AUTO BUILD   ========"
+	dh_auto_build()
+#	echo "tt ${VIRTUAL_ENV} p ${DEFAULT_INSTALL_DIR} .. ${CURDIR}/debian/${PACKAGE}"
+#	/usr/bin/env/pip install -v -v -v --no-deps --no-index --find-links="." bob.extension
+	#while read req; do \
+#		echo "Installing $${req%% *} ..."; \
+#		bob/bin/pip install --no-deps --no-index --find-links="." $${req%% *}; \
+#	done <requirements.txt

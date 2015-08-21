@@ -16,7 +16,7 @@ PYTHON2 := $(shell pyversions -dv)
 	dh $@ --parallel --with python2
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_VERSION=@VERSION@ -DBOB_SOVERSION=@SOVERSION@ -DSET_PUBLIC_LIBRARY_PATH=OFF
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBOB_VERSION=2.0.2 -DBOB_SOVERSION=2.0 -DSET_PUBLIC_LIBRARY_PATH=OFF
 
 override_dh_auto_build:
 	dh_auto_build -- VERBOSE=$(DH_VERBOSE) all
