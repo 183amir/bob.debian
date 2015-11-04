@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # Andre Anjos <andre.anjos@idiap.ch>
 # Fri 30 Mar 2012 15:42:02 CEST
 
@@ -7,8 +7,9 @@
 
 # Configure here your parameters for the package you are building
 base_blitz_version="0.10-hg"
-ppa_iteration="3"
-gpg_key="E0CE7EF8"
+ppa_iteration="1"
+#gpg_key="E0CE7EF8" # Andre
+gpg_key="5EEC234C"; #Pavel
 
 # 1) Clone the mercurial repository
 if [ -e blitz.clone ]; then
@@ -32,7 +33,8 @@ echo "Today                   : ${date}"
 blitz_version="${base_blitz_version}${hg_version}"
 echo "Blitz++ version checkout: ${blitz_version}"
 
-for distro in raring quantal precise lucid; do
+#for distro in raring quantal precise lucid; do
+for distro in vivid; do
   ppa_version="2:${blitz_version}-0~ppa${ppa_iteration}~${distro}1"
   echo "Biometrics PPA version  : ${ppa_version}"
   echo "Generating source packages for Ubuntu '${distro}'..."

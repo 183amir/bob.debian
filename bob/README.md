@@ -16,7 +16,7 @@ $ ./make.sh
 Verify that the patches (if specific patches exists) in `os.files` are still
 needed.
 
-Upload the packages to our launchpad site, starting with the first version
+Upload a single packages to our launchpad site, starting with the first version
 that was packaged, as it will be the one containing bob sources:
 
 ```sh
@@ -29,6 +29,9 @@ Then the remaining ones, e.g.:
 ```sh
 $ dput ppa:biometrics/bob *.changes
 ```
+
+If you want to upload all built packages, you can run script `upload2ppa.sh`, where you just need to specify versions you want to upload.
+
 
 Local builds
 ------------

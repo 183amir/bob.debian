@@ -8,89 +8,134 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.4"
-package="bob_${version}-1"
+version="${soversion}.5"
+# you can inscreas this subversion when the source tarball has changes
+subversion=9
+package="bob_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="5"
+ppa_iteration="4"
 #change your GPG/PGP key here
-gpg_key="5EEC234C"; Pavel
+gpg_key="5EEC234C"; #Pavel
 #gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
-source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
-distros="trusty";
+#distros="vivid";
+distros="precise";
+#distros="trusty";
 #distros="trusty saucy raring quantal precise lucid";
 
-if [ ! -e ${package}.orig.tar.gz ]; then
-  echo "${package}.orig.tar.gz does not exist, so we are creating it"
+# create a distribution-specific PPA package and sign it with a gpg key
+function preparedistr {
+  source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+  pn=${1}; #package name
+  pv=${2}; #package version
+  curpackage="${pn}_${pv}"
+  #make sure date generates days of the week in English (the Locale on your
+  #Machine)
+  date=`date +"%a, %d %b %Y %H:%M:%S %z"`
+  echo "Today                   : ${date}"
+  echo "$1 version             : $2"
+
+  echo "${curpackage}"
+  #copies all debian files related to the distribution from os.files folder
+  #into debian folder
+  for distro in ${distros}; do
+    ppa_version="${pv}-${subversion}~ppa${ppa_iteration}~${distro}1"
+    echo "Biometrics PPA version  : ${ppa_version}"
+
+    echo "Generating source packages for Ubuntu '${distro}'..."
+    tar xfz ${curpackage}.orig.tar.gz;
+    cp -a ${curpackage}.orig ${curpackage};
+    cd ${curpackage}
+    cp -r ../debian .
+    for specific in control compat rules patches bob.install bob-dev.install; do
+      if [ -e ../os.files/${specific}.${distro} ]; then
+        echo "Overriding with specific '${specific}' for '${distro}'..."
+        set CPOPT=-L -f
+        [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
+        rm -rf debian/${specific}
+        cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
+      fi
+    done
+    #update all versions and date in the changelog file, so that correct debian
+    #packages are created. Make sure your Day of the week in Locale is in English
+    sed -i -e "s/@PACKAGE@/${pn}/g;s/@VERSION@/${pv}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
+    # update the name of the package in control file and add dependencies
+    sed -i -e "s/@PACKAGE@/${pn}/g" debian/control
+    dependencies=`cat ../dependencies/${pn}`
+    sed -i -e "s/@BOBDEPENDENCIES@/${dependencies}/g" debian/control
+
+    # build and sign the resulted package
+    if [ "${source_shipped}" = "1" ]; then
+      debuild -i -k${gpg_key} -sa -S;
+      source_shipped=0;
+    else
+      debuild -i -k${gpg_key} -sd -S;
+    fi
+
+    # comment above debuild and uncomment this, if want to build packages locally
+#    debuild -us -uc -b;
+
+    cd ..
+    rm -fr ${curpackage}
+  done
+}
+
+
+# create .orig folder if it does not exist yet
+if [ ! -e ${package}.orig ]; then
   if [ ! -e bob-${version}.zip ]; then
-    #download bob from the Pypi morror on debian (not MD5 checksums here)
-    echo "bob-${version}.zip does not exist, so downloading it from debian's mirro on pypi.."
-    wget http://pypi.debian.net/bob/bob-${version}.zip
+   #download bob from the Pypi morror on debian (not MD5 checksums here)
+   echo "bob-${version}.zip does not exist, so downloading it from debian's mirro on pypi.."
+   wget http://pypi.debian.net/bob/bob-${version}.zip
   fi
+
   #we need to create a folder named in a certain way, so debian packaging
   #environment can understand it
-  unzip bob-${version}.zip
+  unzip -q bob-${version}.zip
   mv -f bob-${version} ${package}.orig
-  rm -f bob-${version}.zip
+#  rm -f bob-${version}.zip
 
-  #download all dependencies and put inside our future tarball
-  cd ${package}.orig
-  echo "running pip install with --download option to get all dependancies
-  locally"
-  while read req; do
-    echo "Installing \`${req}'..."
-    #pip install --download="." -v -v -v --no-use-wheel --no-deps --no-compile --find-links="." --install-option sdist "${req}"
-    IFS=' ' read -a parsed_req <<< "${req}"
-    wget http://pypi.debian.net/${parsed_req[0]}/${parsed_req[0]}-${parsed_req[2]}.zip
-    status=$?
-    echo "pip returned status = ${status}"
-    if [  "${status}" != 0  ]; then
-      echo "Installation of package ${req} failed; aborting"
-      exit ${status};
-    fi
-  done <requirements.txt
-  cd ..
-
-  #tarball the folder with all the sources
-  tar cfz ${package}.orig.tar.gz ${package}.orig;
+  #create tarball of the folder with all the sources only if it does not exist
+  if [ ! -e ${package}.orig.tar.gz ]; then
+    tar cfz ${package}.orig.tar.gz ${package}.orig;
+  fi
 fi
 
-#make sure date generates days of the week in English (the Locale on your
-#Machine)
-date=`date +"%a, %d %b %Y %H:%M:%S %z"`
-echo "Today                   : ${date}"
-echo "Bob version             : ${version}"
+#download all dependencies and create a separate package for each of them
+#cd ${package}
+echo "Downloading packages from debian mirror of pypi using wget..."
+while read req; do
+  echo "Processing \`${req}'..."
+  IFS=' ' read -a parsed_req <<< "${req}"
+  # define names for subpackages of bob
+  zip_name=${parsed_req[0]}-${parsed_req[2]}
+  package_name=${parsed_req[0]}_${parsed_req[2]}
 
-#copies all debian files related to the distribution from os.files folder
-#into debian folder
-for distro in ${distros}; do
-  ppa_version="${version}-1-0~ppa${ppa_iteration}~${distro}1"
-  echo "Biometrics PPA version  : ${ppa_version}"
-
-  echo "Generating source packages for Ubuntu '${distro}'..."
-  tar xfz ${package}.orig.tar.gz;
-  cp -a ${package}.orig ${package};
-  cd ${package}
-  cp -r ../debian .
-  for specific in control compat rules patches bob.install bob-dev.install; do
-    if [ -e ../os.files/${specific}.${distro} ]; then
-      echo "Overriding with specific '${specific}' for '${distro}'..."
-      set CPOPT=-L -f
-      [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
-      rm -rf debian/${specific}
-      cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
+  # create tarball only if it does not exist already
+  if [ ! -e ${package_name}.orig.tar.gz ]; then
+    wget -q http://pypi.debian.net/${parsed_req[0]}/${zip_name}.zip
+    status=$?
+    echo "wget returned status = ${status}"
+    if [  "${status}" != 0  ]; then
+      echo "Download of package ${req} failed; aborting"
+      exit ${status};
     fi
-  done
-  #update all versions and date in the changelog file, so that correct debian
-  #packages are created. Make sure your Day of the week in Locale is in English
-  sed -i -e "s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
-  if [ "${source_shipped}" = "1" ]; then
-    debuild -i -k${gpg_key} -sa -S;
-    source_shipped=0;
-  else
-    debuild -i -k${gpg_key} -sd -S;
+
+   # create -orig folder from downloaded zip file
+    unzip -q ${zip_name}.zip
+    mv -f ${zip_name} ${package_name}.orig
+    rm -f ${zip_name}.zip
+    # create tarball from orig folder
+    tar cfz ${package_name}.orig.tar.gz ${package_name}.orig
   fi
-  cd ..
-  rm -rf ${package}
-done
+
+  # call function to prepare debian package
+  preparedistr ${parsed_req[0]} ${parsed_req[2]}
+
+done <${package}.orig/requirements.txt
+
+
+# create the final debian package for the bob meta package
+preparedistr bob ${version}
+

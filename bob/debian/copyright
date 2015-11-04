@@ -1,14 +1,13 @@
-This package was debianized by Andre Anjos <andre.anjos@idiap.ch> on
-11 March 2012.
+This package was debianized by Pavel Korshunov <pavel.korshunov@idiap.ch> on
+26 October 2015.
 
-The current Debian maintainer is Andre Anjos <andre.anjos@idiap.ch>
+The current Debian maintainers are Andre Anjos <andre.anjos@idiap.ch> and Pavel Korshunov <pavel.korshunov@idiap.ch>
 
-The original sources can be downloaded from: http://idiap.github.com/bob/
+The original sources can be downloaded from: https://github.com/bioidiap
 
-Upstream Authors: Andre Anjos, Laurent El-Shafey, Sebastien Marcel, Christopher
-McCool, Roy Wallace, Manuel Guenther, Ivana Chingovska, Francois Moulin
+Upstream Authors: Andre Anjos, Sebastien Marcel, Pavel Korshunov, Tiago Freitas Pereira
 
-Copyright: 2011 - 2012 Idiap Research Institute, Switzerland
+Copyright: 2011 - 2015 Idiap Research Institute, Switzerland
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

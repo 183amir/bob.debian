@@ -1,41 +1,21 @@
-Source: bob
+Source: @PACKAGE@
 Section: science
 Priority: optional
 Maintainer: Biometrics Group <biometric@idiap.ch>
-Build-Depends: debhelper (>= 8.1.3), quilt, cmake, pkg-config, python, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, ffmpeg, libavcodec-dev, libswscale-dev, libboost-all-dev | libboost1.46-all-dev, libavformat-dev, graphviz, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff4-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, python-sphinx, python-nose, dvipng, python-imaging
+Build-Depends: debhelper (>= 8.1.3), quilt, cmake, pkg-config, python-all (>=2.6.6), python-pil, python, python-six, python-dev, python-support, python-setuptools, python-sphinx, python-nose, python-imaging, python-tornado, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, libav-tools, libavcodec-dev,libswscale-dev, libboost-all-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff4-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev,libfftw3-dev, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, libsvm-dev, libvl-dev, doxygen, graphviz, dvipng, libavformat-dev@BOBDEPENDENCIES@
+X-Python-Version: >= 2.6
 Standards-Version: 3.9.4
-#Build-Recommends: libgoogle-perftools-dev
 Homepage: http://idiap.github.com/bob
-#Vcs-Git: git://git.debian.org/collab-maint/bob.git
 Vcs-Browser: https://github.com/idiap/bob
 
-Package: bob
+Package: @PACKAGE@
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-setuptools, python-argparse, python-numpy, python-scipy, python-matplotlib, python-sqlalchemy, python-nose, python-imaging
-Recommends: ipython, hdf5-tools, h5utils
+Pre-Depends: ${misc:Depends}
+Depends: python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev,libboost-all-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff4-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libsvm-dev, libvl-dev, python-sphinx, python-nose, dvipng, python-imaging@BOBDEPENDENCIES@
+Recommends: ipython
 Suggests: libhdf5-doc
 Description: Toolbox for Biometrics, Machine Learning and Signal Processing
  Bob is a signal-processing and machine learning toolbox developed at the Idiap
  Research Institute, in Switzerland. The toolbox is written in a mix of Python
  and C++ and is designed to be both efficient and to reduce development time.
 
-Package: bob-doc
-Section: doc
-Depends: ${misc:Depends}
-Architecture: all
-Description: Toolbox for Biometrics, Machine Learning and Signal Processing
- Bob is a signal-processing and machine learning toolbox developed at the Idiap
- Research Institute, in Switzerland. The toolbox is written in a mix of Python
- and C++ and is designed to be both efficient and to reduce development time.
- .
- These are documentation files for bob.
-
-Package: bob-dev
-Architecture: all
-Depends: ${misc:Depends}, bob, python-dev, python-support, python-setuptools, python-numpy, python-argparse, python-scipy, python-matplotlib, python-sqlalchemy, liblapack-dev, libatlas-base-dev, libblitz1-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libboost-all-dev | libboost1.46-all-dev, libmatio-dev, libjpeg8-dev, libnetpbm10-dev, libpng12-dev, libtiff4-dev, libgif-dev, libhdf5-serial-dev, libqt4-dev, libfftw3-dev, libsvm-dev, libvl-dev, python-sphinx, python-nose, dvipng, python-imaging
-Description: Toolbox for Biometrics, Machine Learning and Signal Processing
- Bob is a signal-processing and machine learning toolbox developed at the Idiap
- Research Institute, in Switzerland. The toolbox is written in a mix of Python
- and C++ and is designed to be both efficient and to reduce development time.
- .
- These are development files needed to compile code that depends on bob.
