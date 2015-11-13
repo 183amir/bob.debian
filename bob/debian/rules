@@ -76,7 +76,7 @@ override_dh_auto_install:
 		fi; \
 		cp -fr $(CURDIR)/doc $${build_dir} ; \
 		cd $${build_dir}; \
-		if [ $(DEB_SOURCE_PACKAGE) = bob.io.image ] || [ $(DEB_SOURCE_PACKAGE) = bob.io.video ] || [ $(DEB_SOURCE_PACKAGE) = bob.io.matlab ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.linear ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.mlp ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.optflow.hornschunck ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.facedetect ] || [ $(DEB_SOURCE_PACKAGE) = bob.db.iris ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.em ] || [ $(DEB_SOURCE_PACKAGE) = bob ]; then \
+		if [ $(DEB_SOURCE_PACKAGE) = bob.io.video ] || [ $(DEB_SOURCE_PACKAGE) = bob.io.matlab ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.linear ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.mlp ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.optflow.hornschunck ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.facedetect ] || [ $(DEB_SOURCE_PACKAGE) = bob.db.iris ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.em ] || [ $(DEB_SOURCE_PACKAGE) = bob ]; then \
 			echo "############### TODO: no doctests for $(DEB_SOURCE_PACKAGE), because sphinx breaks on the self import (while importing bob.foo.bar, it cannot find bar). Need to figure out the reason for this, before doctests can be run for this package. The same problem that breaks sphinx doctest seem also prevents noestests finding tests correctly, so they are skipped for this package (see logs above). ############"; \
 		else \
 		PYTHONPATH=$${PYTHONPATH}:$${build_dir}:$${install_dir} http_proxy='127.0.0.1:9' sphinx-build -b doctest doc/ build/doc; \

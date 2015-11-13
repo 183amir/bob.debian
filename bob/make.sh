@@ -20,8 +20,8 @@ gpg_key="5EEC234C"; #Pavel
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
 #distros="vivid";
-distros="precise";
-#distros="trusty";
+#distros="precise";
+distros="trusty";
 #distros="trusty saucy raring quantal precise lucid";
 
 # create a distribution-specific PPA package and sign it with a gpg key
@@ -95,11 +95,11 @@ if [ ! -e ${package}.orig ]; then
   unzip -q bob-${version}.zip
   mv -f bob-${version} ${package}.orig
 #  rm -f bob-${version}.zip
+fi
 
-  #create tarball of the folder with all the sources only if it does not exist
-  if [ ! -e ${package}.orig.tar.gz ]; then
-    tar cfz ${package}.orig.tar.gz ${package}.orig;
-  fi
+#create tarball of the folder with all the sources only if it does not exist
+if [ ! -e ${package}.orig.tar.gz ]; then
+  tar cfz ${package}.orig.tar.gz ${package}.orig;
 fi
 
 #download all dependencies and create a separate package for each of them
@@ -113,7 +113,7 @@ while read req; do
   package_name=${parsed_req[0]}_${parsed_req[2]}
 
   # create tarball only if it does not exist already
-  if [ ! -e ${package_name}.orig.tar.gz ]; then
+  if [ ! -e ${package_name}.orig ]; then
     wget -q http://pypi.debian.net/${parsed_req[0]}/${zip_name}.zip
     status=$?
     echo "wget returned status = ${status}"
@@ -126,6 +126,8 @@ while read req; do
     unzip -q ${zip_name}.zip
     mv -f ${zip_name} ${package_name}.orig
     rm -f ${zip_name}.zip
+  fi
+  if [ ! -e ${package_name}.orig.tar.gz ]; then
     # create tarball from orig folder
     tar cfz ${package_name}.orig.tar.gz ${package_name}.orig
   fi

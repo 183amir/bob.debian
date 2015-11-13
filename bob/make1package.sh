@@ -9,9 +9,9 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.3"
+version="${soversion}.2"
 subversion=0
-package="bob.io.video_${version}"
+package="bob.io.image_${version}"
 #change ppa_iteration for every new update on ppa launchpad
 ppa_iteration="0"
 #change your GPG/PGP key here
@@ -43,13 +43,13 @@ function preparedistr {
     cp -a ${curpackage}.orig ${curpackage};
     cd ${curpackage}
     cp -r ../debian .
-    for io.videoecific in control compat rules patches bob.install bob-dev.install; do
-      if [ -e ../os.files/${io.videoecific}.${distro} ]; then
-        echo "Overriding with io.videoecific '${io.videoecific}' for '${distro}'..."
+    for specific in control compat rules patches bob.install bob-dev.install; do
+      if [ -e ../os.files/${specific}.${distro} ]; then
+        echo "Overriding with specific '${specific}' for '${distro}'..."
         set CPOPT=-L -f
-        [ -d ../os.files/${io.videoecific}.${distro} ] && CPOPT="${CPOPT} -r"
-        rm -rf debian/${io.videoecific}
-        cp ${CPOPT} ../os.files/${io.videoecific}.${distro} debian/${io.videoecific}
+        [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
+        rm -rf debian/${specific}
+        cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
       fi
     done
     #update all versions and date in the changelog file, so that correct debian
@@ -71,5 +71,5 @@ function preparedistr {
 #tar cfz ${package}.orig.tar.gz ${package}.orig;
 
 # create debian package for the bob meta package
-preparedistr bob.io.video ${version}
+preparedistr bob.io.image ${version}
 
