@@ -20,8 +20,9 @@ gpg_key="5EEC234C"; #Pavel
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
 #distros="vivid";
-distros="precise vivid wily";
+distros="trusty precise vivid wily";
 #distros="trusty";
+#distros="precise";
 #distros="trusty saucy raring quantal precise lucid";
 
 # create a distribution-specific PPA package and sign it with a gpg key

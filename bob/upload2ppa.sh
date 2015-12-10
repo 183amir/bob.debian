@@ -47,4 +47,3 @@ for distro in ${distros}; do
   dput ppa:biometrics/bob ${ppa_name}
 done
 
-

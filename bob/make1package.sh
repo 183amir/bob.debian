@@ -9,9 +9,9 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.6"
+version="${soversion}.$2"
 subversion=0
-package="bob_${version}"
+package="bob.$1_${version}"
 #change ppa_iteration for every new update on ppa launchpad
 ppa_iteration="2"
 #change your GPG/PGP key here
@@ -81,6 +81,9 @@ if [ ! -e ${package}.orig.tar.gz ]; then
 fi
 
 
+#tarball the folder with all the sources
+tar cfz ${package}.orig.tar.gz ${package}.orig;
+
 # create debian package for the bob meta package
-preparedistr bob ${version}
+preparedistr bob.$1 ${version}
 
