@@ -3,6 +3,8 @@
 #
 # Configures, builds and installs Bob on Debian systems.
 
+SHELL := /bin/bash
+
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 
@@ -62,27 +64,44 @@ override_dh_auto_install:
 		echo "Build Path: $${build_dir}"; \
 		cd $${build_dir}; \
 		if [ $(DEB_SOURCE_PACKAGE) = bob.extension ]; then \
-			echo "Special case for bob.extension package - exclude some tests"; \
+			echo "Special case for bob.extension package - exclude some tests that try to access network"; \
 			PYTHONPATH=$${install_dir} nosetests -svv $(DEB_SOURCE_PACKAGE).test_boost --debug=nose.importer; \
 			PYTHONPATH=$${install_dir} nosetests -svv $(DEB_SOURCE_PACKAGE).test_cmake --debug=nose.importer; \
-			PYTHONPATH=$${install_dir} nosetests -svv $(DEB_SOURCE_PACKAGE).test_pkgconfig --debug=nose.importer; \
+			PYTHONPATH=$${install_dir} nosetests -svv --exclude='test_cflags_other' $(DEB_SOURCE_PACKAGE).test_pkgconfig --debug=nose.importer; \
 			PYTHONPATH=$${install_dir} nosetests -svv --exclude='test_documentation_generation' --exclude='test_find_packages' --exclude='test_get_config' $(DEB_SOURCE_PACKAGE).test_utils --debug=nose.importer; \
-		elif [ $(DEB_SOURCE_PACKAGE) = bob.blitz ]; then \
-			echo "Special case for bob.blitz - do not use PYTHONPATH variable, otherwise tests won't be found"; \
-			PYTHONPATH=$${install_dir} nosetests -svv --debug=nose.importer; \
+		elif [ $(DEB_SOURCE_PACKAGE) = bob.db.mnist ]; then \
+			echo "We do not run the tests for $(DEB_SOURCE_PACKAGE) package, because they attempt to download stuff from Internet, which is not allowed by PPA"; \
 		else \
 			echo "Running nosetests for package $(DEB_SOURCE_PACKAGE) - important to add PYTHONPATH, otherwise you get import error"; \
 			PYTHONPATH=.:$${install_dir} nosetests -svv --debug=nose.importer; \
 		fi; \
 		cp -fr $(CURDIR)/doc $${build_dir} ; \
 		cd $${build_dir}; \
-		if [ $(DEB_SOURCE_PACKAGE) = bob.io.image ] || [ $(DEB_SOURCE_PACKAGE) = bob.io.video ] || [ $(DEB_SOURCE_PACKAGE) = bob.io.matlab ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.linear ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.mlp ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.optflow.hornschunck ] || [ $(DEB_SOURCE_PACKAGE) = bob.ip.facedetect ] || [ $(DEB_SOURCE_PACKAGE) = bob.db.iris ] || [ $(DEB_SOURCE_PACKAGE) = bob.learn.em ] || [ $(DEB_SOURCE_PACKAGE) = bob ]; then \
-			echo "############### TODO: no doctests for $(DEB_SOURCE_PACKAGE), because sphinx breaks on the self import (while importing bob.foo.bar, it cannot find bar). Need to figure out the reason for this, before doctests can be run for this package. The same problem that breaks sphinx doctest seem also prevents noestests finding tests correctly, so they are skipped for this package (see logs above). ############"; \
-		else \
-		PYTHONPATH=$${PYTHONPATH}:$${build_dir}:$${install_dir} http_proxy='127.0.0.1:9' sphinx-build -b doctest doc/ build/doc; \
+		if [ $(DEB_SOURCE_PACKAGE) != bob ]; then \
+			echo "Running Sphinx doctest for package $(DEB_SOURCE_PACKAGE)"; \
+			PYTHONPATH=$${PYTHONPATH}:$${build_dir}:$${install_dir} http_proxy='127.0.0.1:9' sphinx-build -b doctest doc/ build/doc; \
+			rm -fr doc; \
+			rm -fr build; \
 		fi; \
-		rm -fr doc; \
-		rm -fr build; \
+		echo "Removing extra __init__.py files"; \
+		cd $${install_dir}; \
+		if [ $(DEB_SOURCE_PACKAGE) != bob.extension ]; then \
+			echo "Removing  bob/__init__.py"; \
+			rm -fr bob/__init__.py; \
+		fi; \
+		IFS='.' read -ra parsed_name <<< "$(DEB_SOURCE_PACKAGE)"; \
+		if  [[ $${#parsed_name[@]} == 3 || $${#parsed_name[@]} == 4 ]]; then \
+			if  [[ $${parsed_name[2]} != base && $${parsed_name[2]} != activation ]]; then \
+	 			echo "In package $(DEB_SOURCE_PACKAGE), removing file $${parsed_name[0]}/$${parsed_name[1]}/__init__.py"; \
+				rm -fr $${parsed_name[0]}/$${parsed_name[1]}/__init__.py; \
+			fi; \
+		fi; \
+		if  [[ $${#parsed_name[@]} == 4 ]]; then \
+			if  [[ $${parsed_name[3]} != hornschunck && $${parsed_name[3]} != utils ]]; then \
+	 			echo "In package $(DEB_SOURCE_PACKAGE), removing file $${parsed_name[0]}/$${parsed_name[1]}/$${parsed_name[2]}/__init__.py"; \
+				rm -fr $${parsed_name[0]}/$${parsed_name[1]}/$${parsed_name[2]}/__init__.py; \
+			fi; \
+		fi; \
 	done
 
 # use $(DEB_BUILD_GNU_TYPE) if need to generate string that looks like x86_64-linux-gnu
@@ -100,6 +119,12 @@ override_dh_auto_install:
 #		PYTHONPATH={destdir}/{install_dir} nosetests -sv $(DEB_SOURCE_PACKAGE).test_cmake; \
 #		PYTHONPATH={destdir}/{install_dir} nosetests -sv $(DEB_SOURCE_PACKAGE).test_pkgconfig; \
 #		PYTHONPATH={destdir}/{install_dir} nosetests -sv --exclude='test_documentation_generation' --exclude='test_find_packages' $(DEB_SOURCE_PACKAGE).test_utils; \
+#
+#			PYTHONPATH=$${install_dir} nosetests -svv $(DEB_SOURCE_PACKAGE).test_boost --debug=nose.importer; \
+#			PYTHONPATH=$${install_dir} nosetests -svv $(DEB_SOURCE_PACKAGE).test_cmake --debug=nose.importer; \
+#			PYTHONPATH=$${install_dir} nosetests -svv --exclude='test_cflags_other' $(DEB_SOURCE_PACKAGE).test_pkgconfig --debug=nose.importer; \
+#			PYTHONPATH=$${install_dir} nosetests -svv --exclude='test_documentation_generation' --exclude='test_find_packages' --exclude='test_get_config' $(DEB_SOURCE_PACKAGE).test_utils --debug=nose.importer; \
+#
 #	fi
 #	echo "** Custom bob rules: run sphinx doctest to tests the documentation **"
 #	cd {dir}

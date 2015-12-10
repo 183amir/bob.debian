@@ -9,22 +9,26 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.3"
+version="${soversion}.6"
 subversion=0
-package="bob.io.video_${version}"
+package="bob_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="0"
+ppa_iteration="2"
 #change your GPG/PGP key here
 gpg_key="5EEC234C"; #Pavel
 #gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
-distros="trusty";
+#distros="trusty";
+#distros="precise";
 #distros="trusty saucy raring quantal precise lucid";
+distros="precise vivid wily";
 
 function preparedistr {
-  source_shipped=1; #if you set this to 0, all changes will ship w/o srcs
-  curpackage="${1}_${2}"
+  name=$1
+  version=$2
+  source_shipped=0; #if you set this to 0, all changes will ship w/o srcs
+  curpackage="${name}_${version}"
   #make sure date generates days of the week in English (the Locale on your
   #Machine)
   date=`date +"%a, %d %b %Y %H:%M:%S %z"`
@@ -35,7 +39,7 @@ function preparedistr {
   #copies all debian files related to the distribution from os.files folder
   #into debian folder
   for distro in ${distros}; do
-    ppa_version="${2}-${subversion}~ppa${ppa_iteration}~${distro}1"
+    ppa_version="${version}-${subversion}~ppa${ppa_iteration}~${distro}1"
     echo "Biometrics PPA version  : ${ppa_version}"
 
     echo "Generating source packages for Ubuntu '${distro}'..."
@@ -43,33 +47,40 @@ function preparedistr {
     cp -a ${curpackage}.orig ${curpackage};
     cd ${curpackage}
     cp -r ../debian .
-    for io.videoecific in control compat rules patches bob.install bob-dev.install; do
-      if [ -e ../os.files/${io.videoecific}.${distro} ]; then
-        echo "Overriding with io.videoecific '${io.videoecific}' for '${distro}'..."
+    for specific in control compat rules patches bob.install bob-dev.install; do
+      if [ -e ../os.files/${specific}.${distro} ]; then
+        echo "Overriding with specific '${specific}' for '${distro}'..."
         set CPOPT=-L -f
-        [ -d ../os.files/${io.videoecific}.${distro} ] && CPOPT="${CPOPT} -r"
-        rm -rf debian/${io.videoecific}
-        cp ${CPOPT} ../os.files/${io.videoecific}.${distro} debian/${io.videoecific}
+        [ -d ../os.files/${specific}.${distro} ] && CPOPT="${CPOPT} -r"
+        rm -rf debian/${specific}
+        cp ${CPOPT} ../os.files/${specific}.${distro} debian/${specific}
       fi
     done
     #update all versions and date in the changelog file, so that correct debian
     #packages are created. Make sure your Day of the week in Locale is in English
-    sed -i -e "s/@PACKAGE@/${1}/g;s/@VERSION@/${2}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
+    sed -i -e "s/@PACKAGE@/${name}/g;s/@VERSION@/${version}/g;s/@PPA_VERSION@/${ppa_version}/g;s/@DATE@/${date}/g;s/@DISTRIBUTION@/${distro}/g" debian/changelog
     # update the name of the package in control file and add dependencies
-    sed -i -e "s/@PACKAGE@/${1}/g" debian/control
-    dependencies=`cat ../dependencies/${1}`
+    sed -i -e "s/@PACKAGE@/${name}/g" debian/control
+    dependencies=`cat ../dependencies/${name}`
     sed -i -e "s/@BOBDEPENDENCIES@/${dependencies}/g" debian/control
 
-    debuild -us -uc -b;
+    # local build
+#    debuild -us -uc -b;
+    # build for PPA
+    debuild -i -k${gpg_key} -sd -S;
 
     cd ..
+    rm -fr ${curpackage}
   done
 }
 
 
-#tarball the folder with all the sources
-#tar cfz ${package}.orig.tar.gz ${package}.orig;
+#create tarball of the folder with all the sources only if it does not exist
+if [ ! -e ${package}.orig.tar.gz ]; then
+  tar cfz ${package}.orig.tar.gz ${package}.orig;
+fi
+
 
 # create debian package for the bob meta package
-preparedistr bob.io.video ${version}
+preparedistr bob ${version}
 

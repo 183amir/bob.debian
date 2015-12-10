@@ -8,19 +8,19 @@
 
 # Configure here your parameters for the package you are building
 soversion="2.0"
-version="${soversion}.5"
+version="${soversion}.6"
 # you can inscreas this subversion when the source tarball has changes
-subversion=9
+subversion=0
 package="bob_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="4"
+ppa_iteration="1"
 #change your GPG/PGP key here
 gpg_key="5EEC234C"; #Pavel
 #gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
 #distros="vivid";
-distros="precise";
+distros="precise vivid wily";
 #distros="trusty";
 #distros="trusty saucy raring quantal precise lucid";
 
@@ -42,6 +42,11 @@ function preparedistr {
   for distro in ${distros}; do
     ppa_version="${pv}-${subversion}~ppa${ppa_iteration}~${distro}1"
     echo "Biometrics PPA version  : ${ppa_version}"
+
+#    if [ -e ${pn}_${ppa_version}_i386.deb ]; then
+#      echo "+++ Debian Package  ${pn}_${ppa_version}_i386.deb exist, skipping build.. "
+#      continue
+#    fi
 
     echo "Generating source packages for Ubuntu '${distro}'..."
     tar xfz ${curpackage}.orig.tar.gz;
@@ -95,11 +100,11 @@ if [ ! -e ${package}.orig ]; then
   unzip -q bob-${version}.zip
   mv -f bob-${version} ${package}.orig
 #  rm -f bob-${version}.zip
+fi
 
-  #create tarball of the folder with all the sources only if it does not exist
-  if [ ! -e ${package}.orig.tar.gz ]; then
-    tar cfz ${package}.orig.tar.gz ${package}.orig;
-  fi
+#create tarball of the folder with all the sources only if it does not exist
+if [ ! -e ${package}.orig.tar.gz ]; then
+  tar cfz ${package}.orig.tar.gz ${package}.orig;
 fi
 
 #download all dependencies and create a separate package for each of them
@@ -113,7 +118,7 @@ while read req; do
   package_name=${parsed_req[0]}_${parsed_req[2]}
 
   # create tarball only if it does not exist already
-  if [ ! -e ${package_name}.orig.tar.gz ]; then
+  if [ ! -e ${package_name}.orig ]; then
     wget -q http://pypi.debian.net/${parsed_req[0]}/${zip_name}.zip
     status=$?
     echo "wget returned status = ${status}"
@@ -126,6 +131,8 @@ while read req; do
     unzip -q ${zip_name}.zip
     mv -f ${zip_name} ${package_name}.orig
     rm -f ${zip_name}.zip
+  fi
+  if [ ! -e ${package_name}.orig.tar.gz ]; then
     # create tarball from orig folder
     tar cfz ${package_name}.orig.tar.gz ${package_name}.orig
   fi
