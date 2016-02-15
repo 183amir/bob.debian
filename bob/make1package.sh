@@ -8,21 +8,19 @@
 # this script is meant to use for verification and debugging purposes
 
 # Configure here your parameters for the package you are building
-soversion="2.0"
+soversion="2.1"
 version="${soversion}.$2"
-subversion=0
-package="bob.$1_${version}"
+subversion=1
+package="$1_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="2"
+ppa_iteration="0"
 #change your GPG/PGP key here
 gpg_key="5EEC234C"; #Pavel
 #gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
-#distros="trusty";
-#distros="precise";
-#distros="trusty saucy raring quantal precise lucid";
-distros="precise vivid wily";
+distros="trusty";
+#distros="precise vivid wily";
 
 function preparedistr {
   name=$1
@@ -65,7 +63,7 @@ function preparedistr {
     sed -i -e "s/@BOBDEPENDENCIES@/${dependencies}/g" debian/control
 
     # local build
-#    debuild -us -uc -b;
+    #debuild -us -uc -b;
     # build for PPA
     debuild -i -k${gpg_key} -sd -S;
 
@@ -82,8 +80,8 @@ fi
 
 
 #tarball the folder with all the sources
-tar cfz ${package}.orig.tar.gz ${package}.orig;
+#tar cfz ${package}.orig.tar.gz ${package}.orig;
 
 # create debian package for the bob meta package
-preparedistr bob.$1 ${version}
+preparedistr $1 ${version}
 

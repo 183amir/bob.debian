@@ -7,16 +7,16 @@
 # get the list of all packages
 
 # Configure here your parameters for the packages you want to upload to ppa
-soversion="2.0"
-version="${soversion}.6"
-subversion=0
+soversion="2.1"
+version="${soversion}.0"
+subversion=1
 package="bob_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="1"
-#distros="trusty";
+ppa_iteration="0"
+distros="trusty";
 #distros="precise";
 #distros="vivid"
-distros="precise vivid wily";
+#distros="precise vivid wily";
 
 tar xfz ${package}.orig.tar.gz
 

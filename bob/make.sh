@@ -7,23 +7,22 @@
 # Creates a new debian package for Bob
 
 # Configure here your parameters for the package you are building
-soversion="2.0"
-version="${soversion}.6"
+soversion="2.1"
+version="${soversion}.0"
 # you can inscreas this subversion when the source tarball has changes
 subversion=0
 package="bob_${version}"
 #change ppa_iteration for every new update on ppa launchpad
-ppa_iteration="1"
+ppa_iteration="0"
 #change your GPG/PGP key here
 gpg_key="5EEC234C"; #Pavel
 #gpg_key="A2170D5D"; # Andre
 #gpg_key="E0CE7EF8"; # Laurentes
 #source_shipped=1; #if you set this to 1, all changes will ship with srcs
 #distros="vivid";
-distros="trusty precise vivid wily";
+distros="precise vivid wily";
 #distros="trusty";
 #distros="precise";
-#distros="trusty saucy raring quantal precise lucid";
 
 # create a distribution-specific PPA package and sign it with a gpg key
 function preparedistr {
@@ -79,11 +78,12 @@ function preparedistr {
       debuild -i -k${gpg_key} -sd -S;
     fi
 
-    # comment above debuild and uncomment this, if want to build packages locally
+    # comment out above debuild and uncomment this, if you want to build packages locally
 #    debuild -us -uc -b;
-
     cd ..
     rm -fr ${curpackage}
+    # uncommmet this to install the package in the system once built
+#    sudo dpkg -i ${pn}_${ppa_version}_i386.deb
   done
 }
 
